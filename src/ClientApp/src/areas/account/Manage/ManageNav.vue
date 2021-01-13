@@ -20,7 +20,7 @@ const items = reactive([
   { title: 'Password', link: '/Account/manage/ChangePassword', exact: true },
   {
     title: 'Two-factor authentication',
-    link: '/Account/Manage/TwoFactorAuthentication',
+    link: '/Account/Manage/TwoFactor',
     exact: false
   },
   { title: 'Personal data', link: '/account/manage/personaldata', exact: false }

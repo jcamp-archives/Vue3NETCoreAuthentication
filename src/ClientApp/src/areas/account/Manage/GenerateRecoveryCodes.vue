@@ -16,9 +16,7 @@
     <p v-if="codes.length == 0">
       Generating new recovery codes does not change the keys used in authenticator apps. If you wish
       to change the key used in an authenticator app you should
-      <router-link to="/Account/Manage/TwoFactorAuthentication/Reset"
-        >reset your authenticator keys.</router-link
-      >
+      <router-link to="/Account/Manage/TwoFactor/Reset">reset your authenticator keys.</router-link>
     </p>
   </div>
   <div v-if="codes.length == 0">

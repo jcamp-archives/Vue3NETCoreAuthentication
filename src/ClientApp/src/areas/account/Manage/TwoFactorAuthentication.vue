@@ -8,7 +8,7 @@
       <strong>You have no recovery codes left.</strong>
       <p>
         You must
-        <router-link to="/Account/Manage/TwoFactorAuthentication/RecoveryCodes"
+        <router-link to="/Account/Manage/TwoFactor/RecoveryCodes"
           >generate a new set of recovery codes</router-link
         >
         before you can log in with a recovery code.
@@ -18,7 +18,7 @@
       <strong>You have 1 recovery code left.</strong>
       <p>
         You can
-        <router-link to="/Account/Manage/TwoFactorAuthentication/RecoveryCodes"
+        <router-link to="/Account/Manage/TwoFactor/RecoveryCodes"
           >generate a new set of recovery codes</router-link
         >.
       </p>
@@ -27,7 +27,7 @@
       <strong>You have {{ model.recoveryCodesLeft }} recovery codes left.</strong>
       <p>
         You should
-        <router-link to="/Account/Manage/TwoFactorAuthentication/RecoveryCodes"
+        <router-link to="/Account/Manage/TwoFactor/RecoveryCodes"
           >generate a new set of recovery codes</router-link
         >.
       </p>
@@ -42,10 +42,10 @@
       Forget this browser
     </button>
 
-    <router-link to="/Account/Manage/TwoFactorAuthentication/Disable" class="btn btn-primary mr-2"
+    <router-link to="/Account/Manage/TwoFactor/Disable" class="btn btn-primary mr-2"
       >Disable 2FA</router-link
     >
-    <router-link to="/Account/Manage/TwoFactorAuthentication/RecoveryCodes" class="btn btn-primary"
+    <router-link to="/Account/Manage/TwoFactor/RecoveryCodes" class="btn btn-primary"
       >Reset recovery codes</router-link
     >
   </div>
@@ -53,19 +53,19 @@
   <h5>Authenticator app</h5>
   <router-link
     v-if="!model.hasAuthenticator"
-    to="/Account/Manage/TwoFactorAuthentication/Enable"
+    to="/Account/Manage/TwoFactor/Enable"
     class="btn btn-primary mr-2"
     >Add authenticator app</router-link
   >
   <router-link
     v-if="model.hasAuthenticator"
-    to="/Account/Manage/TwoFactorAuthentication/Enable"
+    to="/Account/Manage/TwoFactor/Enable"
     class="btn btn-primary mr-2"
     >Setup authenticator app</router-link
   >
   <router-link
     v-if="model.hasAuthenticator"
-    to="/Account/Manage/TwoFactorAuthentication/Reset"
+    to="/Account/Manage/TwoFactor/Reset"
     class="btn btn-primary"
     >Reset authenticator app</router-link
   >

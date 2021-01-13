@@ -8,9 +8,7 @@
     <p>
       Disabling MFA does not change the keys used in authenticator apps. If you wish to change the
       key used in an authenticator app you should
-      <router-link to="/account/manage/twofactorauthentication/reset"
-        >reset your authenticator keys.</router-link
-      >
+      <router-link to="/account/manage/twofactor/reset">reset your authenticator keys.</router-link>
     </p>
   </div>
 
@@ -34,7 +32,7 @@ const disableMfa = async () => {
   error.value = ''
   try {
     await axios.post('/api/account/manage/mfadisable', {})
-    router.push('/account/manage/twofactorauthentication/')
+    router.push('/account/manage/twofactor/')
   } catch (ex) {
     error.value = ex.response.data.message
   }

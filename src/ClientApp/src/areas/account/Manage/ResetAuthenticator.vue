@@ -34,7 +34,7 @@ const resetAuth = async () => {
   error.value = ''
   try {
     await axios.post('/api/account/manage/mfaresetkey', {})
-    router.push('/account/manage/twofactorauthentication/')
+    router.push('/account/manage/twofactor/')
   } catch (ex) {
     error.value = ex.response.data.message
   }

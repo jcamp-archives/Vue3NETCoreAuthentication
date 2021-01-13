@@ -89,7 +89,7 @@ const routes: Array<RouteRecordRaw> = [
         ]
       },
       {
-        path: 'twofactorauthentication',
+        path: 'twofactor',
         component: () => import('@/components/PassThrough.vue'),
         children: [
           { path: '', component: () => import('./Manage/TwoFactorAuthentication.vue') },
