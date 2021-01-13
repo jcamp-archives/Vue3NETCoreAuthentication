@@ -30,7 +30,8 @@ const items = reactive([
   { title: 'Register', icon: 'oi oi-fork', link: '/account/register' },
   { title: 'Login', icon: 'oi oi-fork', link: '/account/login' },
   { title: 'Logout', icon: 'oi oi-fork', link: '/account/logout' },
-  { title: 'Profile', icon: 'oi oi-fork', link: '/account/manage' }
+  { title: 'Profile', icon: 'oi oi-fork', link: '/account/manage' },
+  { title: 'Admin', icon: 'oi oi-fork', link: '/admin' }
 ])
 
 const ToggleNavMenu = (): void => {

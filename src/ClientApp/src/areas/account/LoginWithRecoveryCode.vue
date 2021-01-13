@@ -50,9 +50,9 @@ const model = reactive({ recoveryCode: '' })
 onBeforeMount(async () => {
   returnUrl.value = route.query.returnUrl as string
   try {
-    const response = await axios.post('/api/account/checkmfa', {})
+    await axios.post('/api/account/checkmfa', {})
   } catch (ex) {
-    router.push('/account/login')
+    router.push({ path: '/account/login', query: { returnUrl: returnUrl.value } })
   }
 })
 

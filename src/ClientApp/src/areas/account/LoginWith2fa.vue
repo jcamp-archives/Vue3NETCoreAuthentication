@@ -38,7 +38,9 @@
   </div>
   <p>
     Don't have access to your authenticator device? You can
-    <router-link to="/Account/LoginWithRecoveryCode">log in with a recovery code</router-link>.
+    <router-link :to="{ path: '/account/LoginWithRecoveryCode', query: { returnUrl: returnUrl } }"
+      >log in with a recovery code</router-link
+    >.
   </p>
 </template>
 
@@ -61,9 +63,9 @@ const model = reactive({ twoFactorCode: '', rememberMachine: false })
 onBeforeMount(async () => {
   returnUrl.value = route.query.returnUrl as string
   try {
-    const response = await axios.post('/api/account/checkmfa', {})
+    await axios.post('/api/account/checkmfa', {})
   } catch (ex) {
-    router.push('/account/login')
+    router.push({ path: '/account/login', query: { returnUrl: returnUrl.value } })
   }
 })
 

@@ -75,6 +75,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/account/manage',
     component: () => import('./Manage/ManageLayout.vue'),
+    meta: { auth: true },
     children: [
       { path: '', component: () => import('./Manage/Index.vue') },
       { path: 'email', component: () => import('./Manage/Email.vue') },

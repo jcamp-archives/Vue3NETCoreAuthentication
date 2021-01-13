@@ -87,9 +87,12 @@ const onSubmit = async (values: any, actions: any) => {
   } catch (ex) {
     const result = ex.response.data
     if (result.requiresTwoFactor) {
-      router.push('/account/loginwith2fa')
+      router.push({ path: '/account/loginwith2fa', query: { returnUrl: returnUrl.value } })
     } else if (result.requiresEmailConfirmation) {
-      router.push('/Account/ResendEmailConfirmation')
+      router.push({
+        path: '/account/ResendEmailConfirmation',
+        query: { returnUrl: returnUrl.value }
+      })
     } else if (result.isLockedOut) {
       router.push('/Account/Lockout')
     } else {

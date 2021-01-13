@@ -37,6 +37,7 @@ namespace Features.Account
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
+            claims.Add(new Claim(ClaimTypes.Role, "TestUser"));
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSecurityKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
