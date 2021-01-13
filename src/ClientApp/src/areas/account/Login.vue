@@ -14,6 +14,7 @@
             v-model="model.email"
             name="email"
             type="text"
+            v-focus
             class="form-control"
             :class="{ 'is-invalid': errors.email }"
             :validateOnBlur="false"
@@ -66,8 +67,6 @@ const model: ILoginCommand = reactive({} as ILoginCommand)
 
 onMounted(() => {
   returnUrl.value = route.query.returnUrl as string
-  var x = document.getElementsByName('email')[0]
-  x.focus()
 })
 
 const Schema = Yup.object().shape({

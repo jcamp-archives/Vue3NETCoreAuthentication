@@ -66,7 +66,7 @@ const onSubmit = (values, actions) => {
       error.value = ex.response.message
       actions.setErrors(ex.response.data.errors)
       var x = document.getElementsByName(Object.keys(ex.response.data.errors)[0])[0]
-      x.focus()
+      if (x) x.focus()
     })
 }
 </script>

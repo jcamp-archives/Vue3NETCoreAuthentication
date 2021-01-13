@@ -21,6 +21,7 @@
             v-model="model.password"
             name="password"
             type="password"
+            v-focus
             class="form-control"
             :class="{ 'is-invalid': errors.password }"
           />
@@ -34,7 +35,7 @@
 
 <script setup lang="ts">
 import { Field, Form, ErrorMessage, SubmissionContext } from 'vee-validate'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
 import * as Yup from 'yup'
@@ -44,11 +45,6 @@ const route = useRoute()
 const message = ref('')
 const error = ref('')
 const model = reactive({ password: '' })
-
-onMounted(() => {
-  var x = document.getElementsByName('password')[0]
-  x.focus()
-})
 
 const Schema = Yup.object().shape({
   password: Yup.string().label('Password').required().min(8)
@@ -64,7 +60,7 @@ const onSubmit = async (values: any, actions: SubmissionContext) => {
     error.value = ex.response.message
     actions.setErrors(ex.response.data.errors)
     var x = document.getElementsByName(Object.keys(ex.response.data.errors)[0])[0]
-    x.focus()
+    if (x) x.focus()
   }
 }
 </script>

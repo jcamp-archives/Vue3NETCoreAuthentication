@@ -16,6 +16,7 @@
             v-model="model.twoFactorCode"
             name="twoFactorCode"
             type="text"
+            v-focus
             class="form-control"
             :class="{ 'is-invalid': errors.twoFactorCode }"
           />
@@ -61,8 +62,6 @@ onMounted(async () => {
   returnUrl.value = route.query.returnUrl as string
   try {
     const response = await axios.post('/api/account/checkmfa', {})
-    var x = document.getElementsByName('twoFactorCode')[0]
-    x.focus()
   } catch (ex) {
     router.push('/account/login')
   }

@@ -11,6 +11,7 @@
             v-model="model.email"
             name="email"
             type="text"
+            v-focus
             class="form-control"
             :class="{ 'is-invalid': errors.email }"
           />
@@ -46,7 +47,7 @@
 
 <script setup lang="ts">
 import { Field, Form, ErrorMessage, SubmissionContext } from 'vee-validate'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { PasswordSchema } from './models'
 import axios from 'axios'
@@ -57,11 +58,6 @@ const route = useRoute()
 const message = ref('')
 const error = ref('')
 const model = reactive({ email: '', password: '', confirmPassword: '', returnUrl: '' })
-
-onMounted(() => {
-  var x = document.getElementsByName('email')[0]
-  x.focus()
-})
 
 const Schema = PasswordSchema.shape({
   email: Yup.string().label('Email').required().email()
@@ -78,7 +74,7 @@ const onSubmit = async (values: any, actions: SubmissionContext) => {
     error.value = ex.response.message
     actions.setErrors(ex.response.data.errors)
     var x = document.getElementsByName(Object.keys(ex.response.data.errors)[0])[0]
-    x.focus()
+    if (x) x.focus()
   }
 }
 </script>

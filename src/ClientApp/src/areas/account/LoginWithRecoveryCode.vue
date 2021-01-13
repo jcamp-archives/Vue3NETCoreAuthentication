@@ -18,6 +18,7 @@
             v-model="model.recoveryCode"
             name="recoveryCode"
             type="text"
+            v-focus
             class="form-control"
             :class="{ 'is-invalid': errors.recoveryCode }"
           />
@@ -50,8 +51,6 @@ onMounted(async () => {
   returnUrl.value = route.query.returnUrl as string
   try {
     const response = await axios.post('/api/account/checkmfa', {})
-    var x = document.getElementsByName('recoveryCode')[0]
-    x.focus()
   } catch (ex) {
     router.push('/account/login')
   }

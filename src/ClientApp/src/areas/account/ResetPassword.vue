@@ -13,6 +13,7 @@
             v-model="model.password"
             name="password"
             type="password"
+            v-focus
             class="form-control"
             :class="{ 'is-invalid': errors.password }"
           />
@@ -56,9 +57,6 @@ onMounted(() => {
 
   model.email = email as string
   model.code = code as string
-
-  var x = document.getElementsByName('password')[0]
-  x.focus()
 })
 
 const onSubmit = async (values: any, actions: SubmissionContext) => {

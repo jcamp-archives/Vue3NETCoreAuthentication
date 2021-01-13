@@ -41,6 +41,7 @@
                   name="verificationCode"
                   type="text"
                   class="form-control"
+                  v-focus
                   :class="{ 'is-invalid': errors.verificationCode }"
                 />
                 <ErrorMessage class="invalid-feedback" name="verificationCode" />
@@ -73,8 +74,6 @@ onMounted(async () => {
     model.sharedKey = response.data.sharedKey
     model.authenticatorUri = response.data.authenticatorUri
     model.qrCodeBase64 = response.data.qrCodeBase64
-    var x = document.getElementsByName('verificationCode')[0]
-    x.focus()
   } catch (ex) {
     error.value = ex.message
   }

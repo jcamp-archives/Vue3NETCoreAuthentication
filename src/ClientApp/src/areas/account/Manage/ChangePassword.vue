@@ -12,6 +12,7 @@
             v-model="model.oldPassword"
             name="oldPassword"
             type="password"
+            v-focus
             class="form-control"
             :class="{ 'is-invalid': errors.oldPassword }"
           />
@@ -48,7 +49,7 @@
 
 <script setup lang="ts">
 import { Field, Form, ErrorMessage, SubmissionContext } from 'vee-validate'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { PasswordSchema } from '../models'
 import axios from 'axios'
@@ -62,11 +63,6 @@ const model = reactive({ oldPassword: '', password: '', confirmPassword: '' })
 
 const Schema = PasswordSchema.shape({
   oldPassword: Yup.string().label('Old Password').required().min(8)
-})
-
-onMounted(() => {
-  var x = document.getElementsByName('oldPassword')[0]
-  x.focus()
 })
 
 const onSubmit = async (values: any, actions: SubmissionContext) => {

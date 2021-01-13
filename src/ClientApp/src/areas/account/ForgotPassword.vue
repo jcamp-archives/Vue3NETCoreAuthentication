@@ -10,6 +10,7 @@
             v-model="model.email"
             name="email"
             type="text"
+            v-focus
             class="form-control"
             :class="{ 'is-invalid': errors.email }"
           />
@@ -23,7 +24,7 @@
 
 <script setup lang="ts">
 import { Field, Form, ErrorMessage, SubmissionContext } from 'vee-validate'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
 import * as Yup from 'yup'
@@ -33,11 +34,6 @@ const route = useRoute()
 const message = ref('')
 const error = ref('')
 const model = reactive({ email: '' })
-
-onMounted(() => {
-  var x = document.getElementsByName('email')[0]
-  x.focus()
-})
 
 const Schema = Yup.object().shape({
   email: Yup.string().label('Email').required().email()
@@ -53,7 +49,7 @@ const onSubmit = async (values: any, actions: SubmissionContext) => {
     error.value = ex.response.data.message
     actions.setErrors(ex.response.data.errors)
     var x = document.getElementsByName(Object.keys(ex.response.data.errors)[0])[0]
-    x.focus()
+    if (x) x.focus()
   }
 }
 </script>
