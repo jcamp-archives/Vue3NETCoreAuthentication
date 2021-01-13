@@ -71,9 +71,7 @@ const verificationCode = ref('')
 onMounted(async () => {
   try {
     const response = await axios.get<IMfaEnableResult>('/api/account/manage/mfaenable')
-    model.sharedKey = response.data.sharedKey
-    model.authenticatorUri = response.data.authenticatorUri
-    model.qrCodeBase64 = response.data.qrCodeBase64
+    Object.assign(model, response.data)
   } catch (ex) {
     error.value = ex.message
   }

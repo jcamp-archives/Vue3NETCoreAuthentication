@@ -56,8 +56,7 @@ const Schema = Yup.object().shape({
 onMounted(async () => {
   try {
     const response = await axios.get<IUserProfileCommand>('/api/account/manage/userprofile')
-    model.email = response.data.email
-    model.phoneNumber = response.data.phoneNumber
+    Object.assign(model, response.data)
   } catch (ex) {
     router.push('/account/login')
   }

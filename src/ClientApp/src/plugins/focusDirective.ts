@@ -6,7 +6,6 @@ export default {
   install: (app: App) => {
     app.directive('focus', {
       mounted(el, binding) {
-        console.log('binding: ' + binding.value)
         if (binding.value || binding.value === undefined) el.focus()
         else el.blur()
       },

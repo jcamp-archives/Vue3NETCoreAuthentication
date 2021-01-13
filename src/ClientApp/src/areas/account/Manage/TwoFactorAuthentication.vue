@@ -85,10 +85,7 @@ const model = reactive({} as IMfaInfo)
 onMounted(async () => {
   try {
     const response = await axios.get<IMfaInfo>('/api/account/manage/mfainfo')
-    model.hasAuthenticator = response.data.hasAuthenticator
-    model.isMachineRemembered = response.data.isMachineRemembered
-    model.isMfaEnabled = response.data.isMfaEnabled
-    model.recoveryCodesLeft = response.data.recoveryCodesLeft
+    Object.assign(model, response.data)
   } catch (ex) {
     router.push('/account/login')
   }
