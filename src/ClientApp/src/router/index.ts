@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
-import Validation from '../views/Validation-Setup.vue'
+import Validation from '../views/Validation-Class.vue'
 import AccountRoutes from '@/areas/account/routes'
 
 const baseRoutes: Array<RouteRecordRaw> = [

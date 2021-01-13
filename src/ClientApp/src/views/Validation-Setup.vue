@@ -57,16 +57,17 @@ const model = reactive({ name: 'Isadora Jarr', age: 39, emailAddress: 'im@nonymo
 const onSubmit = (values, actions) => {
   message.value = ''
   error.value = ''
-  axios
-    .post('api/personmediatr', model)
-    .then((response) => {
-      message.value = response.data
-    })
-    .catch((ex) => {
-      error.value = ex.response.message
-      actions.setErrors(ex.response.data.errors)
-      var x = document.getElementsByName(Object.keys(ex.response.data.errors)[0])[0]
-      if (x) x.focus()
-    })
+  message.value = 'Submit not actually sent to server'
+  // axios
+  //   .post('api/personmediatr', model)
+  //   .then((response) => {
+  //     message.value = response.data
+  //   })
+  //   .catch((ex) => {
+  //     error.value = ex.response.message
+  //     actions.setErrors(ex.response.data.errors)
+  //     var x = document.getElementsByName(Object.keys(ex.response.data.errors)[0])[0]
+  //     if (x) x.focus()
+  //   })
 }
 </script>
