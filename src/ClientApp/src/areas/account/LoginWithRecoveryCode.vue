@@ -34,7 +34,7 @@
 <script setup lang="ts">
 import type { ILoginCommand, ILoginResult } from './models'
 import { Field, Form, ErrorMessage } from 'vee-validate'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onBeforeMount } from 'vue'
 import axios from 'axios'
 import { useRouter, useRoute } from 'vue-router'
 import * as Yup from 'yup'
@@ -47,7 +47,7 @@ const error = ref('')
 const returnUrl = ref('')
 const model = reactive({ recoveryCode: '' })
 
-onMounted(async () => {
+onBeforeMount(async () => {
   returnUrl.value = route.query.returnUrl as string
   try {
     const response = await axios.post('/api/account/checkmfa', {})

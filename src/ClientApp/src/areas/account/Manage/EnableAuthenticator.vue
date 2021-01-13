@@ -2,7 +2,7 @@
   <div v-if="message" class="alert alert-success" role="alert">{{ message }}</div>
   <div v-if="error" class="alert alert-danger" role="alert">{{ error }}</div>
 
-  <div>
+  <div v-if="model.qrCodeBase64">
     <p>To use an authenticator app go through the following steps:</p>
     <ol class="list">
       <li>
@@ -58,7 +58,7 @@
 
 <script setup lang="ts">
 import { Field, Form, ErrorMessage } from 'vee-validate'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onBeforeMount } from 'vue'
 import axios from 'axios'
 import * as Yup from 'yup'
 import type { IMfaEnableResult } from './models'
@@ -68,7 +68,7 @@ const error = ref('')
 const model = reactive({} as IMfaEnableResult)
 const verificationCode = ref('')
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
     const response = await axios.get<IMfaEnableResult>('/api/account/manage/mfaenable')
     Object.assign(model, response.data)

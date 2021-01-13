@@ -72,7 +72,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onBeforeMount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { IMfaInfo } from './models'
 import axios from 'axios'
@@ -82,7 +82,7 @@ const message = ref('')
 const error = ref('')
 const model = reactive({} as IMfaInfo)
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
     const response = await axios.get<IMfaInfo>('/api/account/manage/mfainfo')
     Object.assign(model, response.data)

@@ -9,13 +9,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onBeforeMount } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 const body = ref('')
 const router = useRouter()
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
     const response = await axios.post('/api/account/manage/downloadpersonaldata', {})
     body.value = response.data.jsonData

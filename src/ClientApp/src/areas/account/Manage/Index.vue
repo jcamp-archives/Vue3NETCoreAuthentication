@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { Field, Form, ErrorMessage, SubmissionContext } from 'vee-validate'
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, onBeforeMount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { IUserProfileCommand } from './models'
 import axios from 'axios'
@@ -53,7 +53,7 @@ const Schema = Yup.object().shape({
   email: Yup.string().label('Email').required().email()
 })
 
-onMounted(async () => {
+onBeforeMount(async () => {
   try {
     const response = await axios.get<IUserProfileCommand>('/api/account/manage/userprofile')
     Object.assign(model, response.data)
