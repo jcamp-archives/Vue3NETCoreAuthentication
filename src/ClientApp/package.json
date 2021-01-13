@@ -14,14 +14,15 @@
     "bootstrap": "^4.5.3",
     "core-js": "^3.6.5",
     "date-fns": "^2.16.1",
+    "jwt-decode": "^3.1.2",
     "open-iconic": "^1.1.1",
     "register-service-worker": "^1.7.1",
-    "vee-validate": "^4.1.6",
+    "vee-validate": "^4.1.7",
     "vue": "^3.0.0",
+    "vue-class-component": "^8.0.0-0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
-    "yup": "^0.32.8",
-    "vue-class-component": "^8.0.0-0"
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.11.1",

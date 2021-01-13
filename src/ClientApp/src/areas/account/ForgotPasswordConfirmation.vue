@@ -1,0 +1,5 @@
+﻿<template>
+  <h1>Forgot Password Confirmation</h1>
+
+  <p>Please check your email to reset your password.</p>
+</template>

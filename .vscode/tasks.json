@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/AspNetCoreVueStarter.csproj",
+                "${workspaceFolder}/src/Blazor5Auth.Server.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/AspNetCoreVueStarter.csproj",
+                "${workspaceFolder}/src/Blazor5Auth.Server.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/src/AspNetCoreVueStarter.csproj",
+                "${workspaceFolder}/src/Blazor5Auth.Server.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -45,7 +45,7 @@
             "options": {"cwd": "${workspaceFolder}/src"},
             "args": [
                 "run",
-                "${workspaceFolder}/src/bin/Debug/net5.0/AspNetCoreVueStarter.dll",
+                "${workspaceFolder}/src/bin/Debug/net5.0/Blazor5Auth.Server.dll",
                 "/mode:kill"
             ],
             "presentation": {

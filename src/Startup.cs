@@ -1,18 +1,31 @@
-using System.Text.Json;
-using Blazor5Validation.Server.Extensions;
-using Blazor5Validation.Shared;
-using Blazor5Validation.Shared.Features.Base;
-using FluentValidation.AspNetCore;
-using MediatR;
+﻿using Blazor5Auth.Server.Data;
+using Blazor5Auth.Server.Extensions;
+using Blazor5Auth.Server.Models;
+using Blazor5Auth.Shared;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.Linq;
+using System.Text;
+using Features.Account;
+using Features.Base;
+using FluentValidation.AspNetCore;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Blazor5Auth.Server.Services;
+using MongoFramework;
+using MongoFramework.AspNetCore.Identity;
+using System.Text.Json;
 using VueCliMiddleware;
 
-namespace AspNetCoreVueStarter
+namespace Blazor5Auth.Server
 {
     public class Startup
     {
@@ -24,9 +37,36 @@ namespace AspNetCoreVueStarter
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMediatR(typeof(Startup));
+
+            services.AddMongoDbContext<ApplicationDbContext>(o =>
+                o.ConnectionString = Configuration.GetConnectionString("DefaultConnection"));
+
+            services.AddMongoIdentity<ApplicationUser, MongoIdentityRole, ApplicationDbContext>(options => options.SignIn.RequireConfirmedAccount = true);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["JwtIssuer"],
+                        ValidAudience = Configuration["JwtAudience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JwtSecurityKey"]))
+                    };
+                });
+
+            services.AddAuthorization(config =>
+            {
+                config.AddPolicy(Policies.IsAdmin, Policies.IsAdminPolicy());
+                config.AddPolicy(Policies.IsUser, Policies.IsUserPolicy());
+            });
 
             // This allows customization of the result when model binding fails on ApiControllers
             services.AddControllersWithViews()
@@ -34,34 +74,41 @@ namespace AspNetCoreVueStarter
                 {
                     options.InvalidModelStateResponseFactory = context =>
                     {
-                        return new BadRequestObjectResult(new BaseResult().Errors(context.ModelState));
+                        return new BadRequestObjectResult(new BaseResult().WithErrors(context.ModelState));
                     };
                 })
                 .AddFluentValidation(fv =>
                 {
                     fv.ImplicitlyValidateChildProperties = true;
-                    //fv.RegisterValidatorsFromAssemblyContaining<PersonValidator>();
+                    fv.RegisterValidatorsFromAssemblyContaining<BaseResult>();
                     fv.RegisterValidatorsFromAssemblyContaining<Startup>();
                 })
-                        .AddJsonOptions(options =>
-        {
-            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-        });
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                });
 
-            // Add AddRazorPages if the app uses Razor Pages.
-            // services.AddRazorPages();
+            //services.AddRazorPages()
+
+            //email services
+            services.Configure<SmtpSettings>(Configuration.GetSection("SmtpSettings"));
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IRazorViewToStringRenderer, RazorViewToStringRenderer>();
+
+            services.AddTransient<IJwtHelper, JwtHelper>();
+            services.AddScoped<IUserAccessor, UserAccessor>();
 
             // In production, the Vue files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             _ = CommandLine.Arguments.TryGetOptions(System.Environment.GetCommandLineArgs(), false, out string mode, out ushort port, out bool https);
 
             if (env.IsDevelopment())
@@ -85,14 +132,16 @@ namespace AspNetCoreVueStarter
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-
-                // Add MapRazorPages if the app uses Razor Pages. Since Endpoint Routing includes support for many frameworks, adding Razor Pages is now opt -in.
-                // endpoints.MapRazorPages();
+//                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+                // endpoints.MapControllerRoute(
+                //     name: "default",
+                //     pattern: "{controller}/{action=Index}/{id?}");
             });
 
             app.UseSpa(spa =>
@@ -118,6 +167,11 @@ namespace AspNetCoreVueStarter
                     }
                 }
             });
+
+
+            SeedData.Initialize(app.ApplicationServices);
         }
     }
+
 }
+

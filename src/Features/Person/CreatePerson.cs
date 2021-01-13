@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
-using Blazor5Validation.Shared.Features.Base;
-using Blazor5Validation.Server.Extensions;
+using Features.Base;
+using Blazor5Auth.Server.Extensions;
 using System.Threading;
 using Blazor5Validation.Shared;
 
@@ -28,7 +28,7 @@ namespace Features.Person
         {
             public Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
-                var result = new Result().Success("Looks good to the server (mediatr).");
+                var result = new Result().Succeeded("Looks good to the server (mediatr).");
                 return Task.FromResult(result);
             }
         }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Blazor5Validation.Server.Extensions
+namespace Blazor5Auth.Server.Extensions
 {
     public static class ModelStateExtensions
     {

@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 import Validation from '../views/Validation-Setup.vue'
+import AccountRoutes from '@/areas/account/routes'
 
-const routes: Array<RouteRecordRaw> = [
+const baseRoutes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
@@ -33,6 +34,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   }
 ]
+
+const routes = baseRoutes.concat(AccountRoutes)
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

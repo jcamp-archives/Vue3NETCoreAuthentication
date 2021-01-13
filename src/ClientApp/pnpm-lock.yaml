@@ -4,9 +4,10 @@ dependencies:
   bootstrap: 4.5.3
   core-js: 3.8.2
   date-fns: 2.16.1
+  jwt-decode: 3.1.2
   open-iconic: 1.1.1
   register-service-worker: 1.7.2
-  vee-validate: 4.1.6_vue@3.0.5
+  vee-validate: 4.1.7_vue@3.0.5
   vue: 3.0.5
   vue-class-component: 8.0.0-rc.1_vue@3.0.5
   vue-router: 4.0.2_vue@3.0.5
@@ -3286,7 +3287,7 @@ packages:
     resolution:
       integrity: sha512-LO8uL9lOIyRRrQmZxHZFl1RV+ZbcsAkFWTktn5SmH40WgLtSNYN4m4W2v9ONT147PxBY/XrRhrWq8TlvObyUjQ==
   /core-js/2.6.12:
-    deprecated: 'core-js@<3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.'
+    deprecated: core-js@<3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.
     dev: true
     requiresBuild: true
     resolution:
@@ -6092,6 +6093,10 @@ packages:
       '0': node >=0.6.0
     resolution:
       integrity: sha1-MT5mvB5cwG5Di8G3SZwuXFastqI=
+  /jwt-decode/3.1.2:
+    dev: false
+    resolution:
+      integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
   /killable/1.0.1:
     dev: true
     resolution:
@@ -8306,7 +8311,7 @@ packages:
       tough-cookie: 2.5.0
       tunnel-agent: 0.6.0
       uuid: 3.4.0
-    deprecated: 'request has been deprecated, see https://github.com/request/request/issues/3142'
+    deprecated: request has been deprecated, see https://github.com/request/request/issues/3142
     dev: true
     engines:
       node: '>= 6'
@@ -8347,7 +8352,7 @@ packages:
     resolution:
       integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==
   /resolve-url/0.2.1:
-    deprecated: 'https://github.com/lydell/resolve-url#deprecated'
+    deprecated: https://github.com/lydell/resolve-url#deprecated
     dev: true
     resolution:
       integrity: sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
@@ -9745,7 +9750,7 @@ packages:
     resolution:
       integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   /urix/0.1.0:
-    deprecated: 'Please see https://github.com/lydell/urix#deprecated'
+    deprecated: Please see https://github.com/lydell/urix#deprecated
     dev: true
     resolution:
       integrity: sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=
@@ -9851,14 +9856,14 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
-  /vee-validate/4.1.6_vue@3.0.5:
+  /vee-validate/4.1.7_vue@3.0.5:
     dependencies:
       vue: 3.0.5
     dev: false
     peerDependencies:
       vue: ^3.0.0
     resolution:
-      integrity: sha512-XkF4hhePM/5qAvyIfRCRj1a2xGBg2L8WlQH6g51/83+II/0T+b8nqtNQM+m4dn5d4GcGwv2B56inkwW3ep2bZQ==
+      integrity: sha512-3Mhd9EY09d4GTmvosBjJ81Ib+olxURUmubDGMvAB636En2lZ3j3uMK7K0UKwzU+pqhAZN+pXdE0jKMgTT6DZXQ==
   /vendors/1.0.4:
     dev: true
     resolution:
@@ -10527,6 +10532,7 @@ specifiers:
   eslint: ^6.7.2
   eslint-plugin-prettier: ^3.3.1
   eslint-plugin-vue: ^7.0.0
+  jwt-decode: ^3.1.2
   node-sass: ^5.0.0
   open-iconic: ^1.1.1
   prettier: ^2.2.1
@@ -10534,7 +10540,7 @@ specifiers:
   sass: ^1.32.0
   sass-loader: ^10.1.0
   typescript: ^4.1.3
-  vee-validate: ^4.1.6
+  vee-validate: ^4.1.7
   vue: ^3.0.0
   vue-class-component: ^8.0.0-0
   vue-router: ^4.0.0-0

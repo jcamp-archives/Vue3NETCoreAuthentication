@@ -1,12 +1,11 @@
 ﻿using System.Threading.Tasks;
-using Blazor5Validation.Shared.Features.Base;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Blazor5Validation.Server.Features.Base
+namespace Features.Base
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class MediatrControllerBase : ControllerBase
     {
      

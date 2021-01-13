@@ -1,9 +1,16 @@
-using System;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Reinforced.Typings.Attributes;
 using VueCliMiddleware;
 
-namespace AspNetCoreVueStarter
+[assembly:TsGlobal(CamelCaseForMethods = true, CamelCaseForProperties = true, TabSymbol = "  ")]
+namespace Blazor5Auth.Server
 {
     public class Program
     {

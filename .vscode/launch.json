@@ -18,7 +18,7 @@
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "build-vue-cli-serve",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/bin/Debug/net5.0/AspNetCoreVueStarter.dll",
+      "program": "${workspaceFolder}/src/bin/Debug/net5.0/Blazor5Auth.Server.dll",
       "args": [
         "/mode:attach"
       ],
@@ -48,7 +48,7 @@
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/src/bin/Debug/net5.0/AspNetCoreVueStarter.dll",
+      "program": "${workspaceFolder}/src/bin/Debug/net5.0/Blazor5Auth.Server.dll",
       "args": [
         "/mode:start"
       ],

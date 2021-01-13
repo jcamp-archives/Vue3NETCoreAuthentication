@@ -14,7 +14,7 @@ namespace CommandLine
             var arguments = Parse(args);
             var validArgs = true;
 
-            mode = arguments["m"] ?? arguments["mode"] ?? "start";
+            mode = arguments["m"] ?? arguments["mode"] ?? "attach";
             https = arguments["http"] == null && arguments["https"] != null;
             var portString = arguments["p"] ?? arguments["port"] ?? "8080";
 

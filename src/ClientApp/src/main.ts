@@ -5,6 +5,13 @@ import router from './router'
 import store from './store'
 import '@/css/main.scss'
 
+import { configure } from 'vee-validate'
+
+// Default values
+configure({
+  validateOnBlur: false
+})
+
 // prettier-ignore
 createApp(App)
     .use(store)

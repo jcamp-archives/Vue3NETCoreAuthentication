@@ -26,7 +26,11 @@ const items = reactive([
   { title: 'Home', icon: 'oi oi-home', link: '/' },
   { title: 'Counter', icon: 'oi oi-plus', link: '/counter' },
   { title: 'Fetch data', icon: 'oi oi-list-rich', link: '/fetch-data' },
-  { title: 'Validation', icon: 'oi oi-fork', link: '/validation' }
+  { title: 'Validation', icon: 'oi oi-fork', link: '/validation' },
+  { title: 'Register', icon: 'oi oi-fork', link: '/account/register' },
+  { title: 'Login', icon: 'oi oi-fork', link: '/account/login' },
+  { title: 'Logout', icon: 'oi oi-fork', link: '/account/logout' },
+  { title: 'Profile', icon: 'oi oi-fork', link: '/account/manage' }
 ])
 
 const ToggleNavMenu = (): void => {
