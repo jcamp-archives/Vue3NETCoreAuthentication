@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar">
     <div class="top-row pl-4 navbar navbar-dark">
-      <a class="navbar-brand" href="">Asp.Net Core/Vue Starter</a>
+      <router-link to="/" class="navbar-brand">Asp.Net Core/Vue Starter</router-link>
       <button class="navbar-toggler" @click="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
       </button>
