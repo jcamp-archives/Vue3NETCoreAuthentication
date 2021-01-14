@@ -4,30 +4,44 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazor5Auth.Server.Extensions;
-using Blazor5Auth.Server.Models;
-using Blazor5Auth.Server.Services;
-using Blazor5Auth.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Blazor5Auth.Server.Extensions;
+using Blazor5Auth.Server.Models;
+using Blazor5Auth.Server.Services;
+using Features.Base;
+using FluentValidation;
+using MediatR;
 
 namespace Features.Account
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class ResendEmailConfirmation_ : ResendEmailConfirmation
+    public class ResendEmailConfirmation
     {
-        public class CommandHandler : ICommandHandler
+        public class Command : IRequest<Result>
+        {
+            public string Email { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(p => p.Email).NotEmpty().EmailAddress();
+            }
+        }
+
+        public class Result : BaseResult { }
+
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly UserManager<ApplicationUser> _userManager;
-            private readonly ClaimsPrincipal _user;
             private readonly IHttpContextAccessor _contextAccessor;
             private readonly IEmailService _emailService;
 
-            public CommandHandler(UserManager<ApplicationUser> userManager, IUserAccessor user, IEmailService emailService, IHttpContextAccessor contextAccessor)
+            public CommandHandler(UserManager<ApplicationUser> userManager, IEmailService emailService, IHttpContextAccessor contextAccessor)
             {
                 _userManager = userManager;
-                _user = user.User;
                 _emailService = emailService;
                 _contextAccessor = contextAccessor;
             }
@@ -40,9 +54,9 @@ namespace Features.Account
                 {
                     return new Result().Succeeded("Verification email sent. Please check your email.");
                 }
-                
+
                 var email = await _userManager.GetEmailAsync(user);
-             
+
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 

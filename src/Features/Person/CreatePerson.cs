@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using Blazor5Auth.Server.Extensions;
+using Blazor5Validation.Shared;
+using Features.Base;
 using FluentValidation;
 using MediatR;
-using Features.Base;
-using Blazor5Auth.Server.Extensions;
-using System.Threading;
-using Blazor5Validation.Shared;
 
 namespace Features.Person
 {
@@ -17,7 +17,8 @@ namespace Features.Person
 
         public class CommandValidator : AbstractValidator<Command>
         {
-            public CommandValidator() {
+            public CommandValidator()
+            {
                 Include(new PersonValidator());
             }
         }

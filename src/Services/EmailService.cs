@@ -55,7 +55,7 @@ namespace Blazor5Auth.Server.Services
             image.ContentId = MimeUtils.GenerateMessageId();
             model.LogoImage = $"cid:{image.ContentId}";
 
-            string html = await _renderer.RenderViewToStringAsync($"/Emails/{view}.cshtml", model);
+            var html = await _renderer.RenderViewToStringAsync($"/Emails/{view}.cshtml", model);
             builder.HtmlBody = html;
 
             // create message
@@ -79,7 +79,7 @@ namespace Blazor5Auth.Server.Services
         public async Task SendRazorAsync(string to, string subject, string view, string from = null)
         {
             var model = new EmailModel { Title = "Test Title", LogoImage = "http://litmuswww.s3.amazonaws.com/community/template-gallery/ceej/logo.png" };
-            string html = await _renderer.RenderViewToStringAsync($"/Emails/{view}.cshtml", model);
+            var html = await _renderer.RenderViewToStringAsync($"/Emails/{view}.cshtml", model);
             await SendAsync(to, subject, html, from);
         }
 

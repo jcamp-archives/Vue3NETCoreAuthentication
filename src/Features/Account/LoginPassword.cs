@@ -1,15 +1,44 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Blazor5Auth.Server.Extensions;
 using Blazor5Auth.Server.Models;
-using Microsoft.AspNetCore.Identity;
+using Features.Base;
+using FluentValidation;
+using MediatR;
+using Reinforced.Typings.Attributes;
 
 namespace Features.Account
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class LoginPassword_ : LoginPassword
+    public class LoginPassword
     {
-        public class CommandHandler : ICommandHandler
+        [TsInterface(Name = "LoginCommand")]
+        public class Command : IRequest<Result>
+        {
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public bool RememberMe { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(p => p.Email).NotEmpty().EmailAddress();
+                RuleFor(p => p.Password).NotEmpty().MinimumLength(8);
+            }
+        }
+
+        [TsInterface(Name = "LoginResult")]
+        public class Result : BaseResult
+        {
+            public bool RequiresTwoFactor { get; set; }
+            public bool IsLockedOut { get; set; }
+            public bool RequiresEmailConfirmation { get; set; }
+            public string Token { get; set; }
+        }
+
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly IJwtHelper _jwtHelper;
             private readonly SignInManager<ApplicationUser> _signInManager;
@@ -25,14 +54,15 @@ namespace Features.Account
             {
                 var result = await _signInManager.PasswordSignInAsync(request.Email, request.Password, false, false);
 
-                if (result.RequiresTwoFactor) return new Result {IsSuccessful = false, RequiresTwoFactor = true};
-                if (result.IsLockedOut) return new Result {IsSuccessful = false, IsLockedOut = true};
+                if (result.RequiresTwoFactor) return new Result { IsSuccessful = false, RequiresTwoFactor = true };
+                if (result.IsLockedOut) return new Result { IsSuccessful = false, IsLockedOut = true };
 
-                if (result.IsNotAllowed) {
+                if (result.IsNotAllowed)
+                {
                     var user2 = await _signInManager.UserManager.FindByEmailAsync(request.Email);
                     if (!(await _signInManager.UserManager.IsEmailConfirmedAsync(user2)))
                     {
-                        return new Result {IsSuccessful = false, RequiresEmailConfirmation = true};
+                        return new Result { IsSuccessful = false, RequiresEmailConfirmation = true };
                     }
                 }
 
@@ -43,7 +73,7 @@ namespace Features.Account
 
                 var token = _jwtHelper.GenerateJwt(user, roles);
 
-                return new Result {IsSuccessful = true, Token = token};
+                return new Result { IsSuccessful = true, Token = token };
             }
         }
     }

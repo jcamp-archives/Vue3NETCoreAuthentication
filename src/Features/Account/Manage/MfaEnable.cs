@@ -1,22 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Blazor5Auth.Server.Extensions;
 using Blazor5Auth.Server.Models;
-using Blazor5Auth.Shared;
-using Microsoft.AspNetCore.Identity;
+using Features.Base;
+using FluentValidation;
+using MediatR;
 using QRCoder;
+using Reinforced.Typings.Attributes;
 
 namespace Features.Account.Manage
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class MfaEnable_ : MfaEnable
+    public class MfaEnable
     {
-        public class QueryHandler : IQueryHandler
+        public class Query : IRequest<QueryResult> { }
+
+        [TsInterface(Name = "MfaEnableResult")]
+        public class QueryResult : BaseResult
+        {
+            public string SharedKey { get; set; }
+            public string AuthenticatorUri { get; set; }
+            public string QrCodeBase64 { get; set; }
+        }
+
+        public class Command : IRequest<Result>
+        {
+            public string VerificationCode { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(p => p.VerificationCode).NotEmpty().Length(6, 8);
+            }
+        }
+
+        public class Result : BaseResult { }
+
+        public class QueryHandler : IRequestHandler<Query, QueryResult>
         {
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly ClaimsPrincipal _user;
@@ -71,13 +97,13 @@ namespace Features.Account.Manage
                 return Convert.ToBase64String(qrCodeImage);
             }
 
-            private string FormatKey(string unformattedKey)
+            private static string FormatKey(string unformattedKey)
             {
                 var result = new StringBuilder();
                 var currentPosition = 0;
                 while (currentPosition + 4 < unformattedKey.Length)
                 {
-                    result.Append(unformattedKey.Substring(currentPosition, 4)).Append(" ");
+                    result.Append(unformattedKey.Substring(currentPosition, 4)).Append(' ');
                     currentPosition += 4;
                 }
                 if (currentPosition < unformattedKey.Length)
@@ -99,7 +125,7 @@ namespace Features.Account.Manage
 
         }
 
-        public class CommandHandler : ICommandHandler
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly ClaimsPrincipal _user;
@@ -123,7 +149,7 @@ namespace Features.Account.Manage
                 if (!isMfaTokenValid)
                 {
                     var result = new Result().Failed();
-                    result.Errors.Add("VerificationCode","Verification code is invalid.");
+                    result.Errors.Add("VerificationCode", "Verification code is invalid.");
                     return result;
                 }
 

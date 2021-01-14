@@ -9,13 +9,13 @@ namespace Features.Account
     }
 
     public class UserAccessor : IUserAccessor
-    { 
-        private IHttpContextAccessor _accessor;
+    {
+        private readonly IHttpContextAccessor _accessor;
         public UserAccessor(IHttpContextAccessor accessor)
         {
             _accessor = accessor;
         }
-        public ClaimsPrincipal User => _accessor. HttpContext.User;
+        public ClaimsPrincipal User => _accessor.HttpContext.User;
     }
-    
+
 }

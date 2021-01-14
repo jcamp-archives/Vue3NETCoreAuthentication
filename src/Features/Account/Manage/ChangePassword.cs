@@ -1,37 +1,47 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Blazor5Auth.Server.Extensions;
 using Blazor5Auth.Server.Models;
-using Blazor5Auth.Server.Services;
-using Blazor5Auth.Shared;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.WebUtilities;
+using Features.Base;
+using FluentValidation;
+using MediatR;
 
 namespace Features.Account.Manage
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class ChangePassword_ : ChangePassword
+    public class ChangePassword
     {
-        public class CommandHandler : ICommandHandler
+        public class Command : IRequest<Result>
+        {
+            public string OldPassword { get; set; }
+            public string Password { get; set; }
+            public string ConfirmPassword { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(p => p.OldPassword).NotEmpty().MinimumLength(8);
+                RuleFor(p => p.Password).NotEmpty().MinimumLength(8);
+                RuleFor(p => p.ConfirmPassword).Matches(v => v.Password);
+            }
+        }
+
+        public class Result : BaseResult { }
+
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly SignInManager<ApplicationUser> _signInManager;
             private readonly ClaimsPrincipal _user;
-            private readonly IHttpContextAccessor _contextAccessor;
-            private readonly IEmailService _emailService;
 
-            public CommandHandler(UserManager<ApplicationUser> userManager, IUserAccessor user, IEmailService emailService, IHttpContextAccessor contextAccessor, SignInManager<ApplicationUser> signInManager)
+            public CommandHandler(UserManager<ApplicationUser> userManager, IUserAccessor user, SignInManager<ApplicationUser> signInManager)
             {
                 _userManager = userManager;
                 _user = user.User;
-                _emailService = emailService;
-                _contextAccessor = contextAccessor;
                 _signInManager = signInManager;
             }
 

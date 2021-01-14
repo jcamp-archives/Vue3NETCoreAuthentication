@@ -1,8 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Features.Base;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Features.Person
 {
@@ -10,7 +9,7 @@ namespace Features.Person
     public class PersonMediatrController : MediatrControllerBase
     {
         public PersonMediatrController(ISender sender) : base(sender) { }
-        
+
         [HttpPost]
         public async Task<IActionResult> Index(CreatePerson.Command model) => await Send(model);
     }

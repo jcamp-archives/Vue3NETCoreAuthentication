@@ -1,15 +1,40 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Blazor5Auth.Server.Extensions;
 using Blazor5Auth.Server.Models;
-using Microsoft.AspNetCore.Identity;
+using Features.Base;
+using FluentValidation;
+using MediatR;
 
 namespace Features.Account
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class LoginMultiFactor_ : LoginMultiFactor
+    public class LoginMultiFactor
     {
-        public class QueryHandler : IQueryHandler
+        public class Query : IRequest<QueryResult> { }
+
+        public class QueryResult : BaseResult { }
+
+        public class Command : IRequest<Result>
+        {
+            public string TwoFactorCode { get; set; }
+            public bool RememberMachine { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(p => p.TwoFactorCode).NotEmpty().Length(6, 7);
+            }
+        }
+
+        public class Result : BaseResult
+        {
+            public string Token { get; set; }
+        }
+
+        public class QueryHandler : IRequestHandler<Query, QueryResult>
         {
             private readonly SignInManager<ApplicationUser> _signInManager;
 
@@ -28,7 +53,7 @@ namespace Features.Account
             }
         }
 
-        public class CommandHandler : ICommandHandler
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly IJwtHelper _jwtHelper;
             private readonly SignInManager<ApplicationUser> _signInManager;
@@ -55,7 +80,7 @@ namespace Features.Account
 
                 var token = _jwtHelper.GenerateJwt(user, roles);
 
-                return new Result {IsSuccessful = true, Token = token};
+                return new Result { IsSuccessful = true, Token = token };
             }
         }
     }

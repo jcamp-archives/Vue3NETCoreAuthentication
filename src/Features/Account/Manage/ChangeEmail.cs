@@ -4,20 +4,36 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazor5Auth.Server.Extensions;
-using Blazor5Auth.Server.Models;
-using Blazor5Auth.Server.Services;
-using Blazor5Auth.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Blazor5Auth.Server.Extensions;
+using Blazor5Auth.Server.Models;
+using Blazor5Auth.Server.Services;
+using Features.Base;
+using FluentValidation;
+using MediatR;
 
 namespace Features.Account.Manage
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class ChangeEmail_ : ChangeEmail
+    public class ChangeEmail
     {
-        public class CommandHandler : ICommandHandler
+        public class Command : IRequest<Result>
+        {
+            public string NewEmail { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(p => p.NewEmail).NotNull().NotEmpty().EmailAddress();
+            }
+        }
+
+        public class Result : BaseResult { }
+
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly ClaimsPrincipal _user;
@@ -36,7 +52,7 @@ namespace Features.Account.Manage
             {
                 var user = await _userManager.GetUserAsync(_user);
                 var email = await _userManager.GetEmailAsync(user);
-                var statusMessage = "";
+                string statusMessage;
 
                 if (request.NewEmail != email)
                 {
@@ -55,7 +71,8 @@ namespace Features.Account.Manage
 
                     statusMessage = "Confirmation link to change email sent. Please check your email.";
                 }
-                else {
+                else
+                {
                     statusMessage = "Your email is unchanged.";
                 }
 

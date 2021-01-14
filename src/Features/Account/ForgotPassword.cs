@@ -1,33 +1,44 @@
-﻿using System;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazor5Auth.Server.Extensions;
-using Blazor5Auth.Server.Models;
-using Blazor5Auth.Server.Services;
-using Blazor5Auth.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Blazor5Auth.Server.Extensions;
+using Blazor5Auth.Server.Models;
+using Blazor5Auth.Server.Services;
+using Features.Base;
+using FluentValidation;
+using MediatR;
 
 namespace Features.Account
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class ForgotPassword_ : ForgotPassword
+    public class ForgotPassword
     {
-        public class CommandHandler : ICommandHandler
+        public class Command : IRequest<Result>
         {
-            private readonly IJwtHelper _jwtHelper;
+            public string Email { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(p => p.Email).NotEmpty().EmailAddress();
+            }
+        }
+
+        public class Result : BaseResult { }
+
+        public class CommandHandler : IRequestHandler<Command, Result>
+        {
             private readonly SignInManager<ApplicationUser> _signInManager;
             private readonly IHttpContextAccessor _contextAccessor;
             private readonly IEmailService _emailService;
 
-            public CommandHandler(IJwtHelper jwtHelper,
-                SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IEmailService emailService)
+            public CommandHandler(SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IEmailService emailService)
             {
-                _jwtHelper = jwtHelper;
                 _signInManager = signInManager;
                 _contextAccessor = contextAccessor;
                 _emailService = emailService;

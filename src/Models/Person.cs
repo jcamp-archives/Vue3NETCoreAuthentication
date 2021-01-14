@@ -33,7 +33,7 @@ namespace Blazor5Validation.Shared
 
         }
 
-        private async Task<bool> IsUniqueAsync(string name)
+        private static async Task<bool> IsUniqueAsync(string name)
         {
             await Task.Delay(100);
             return name.ToLower() != "test";

@@ -1,45 +1,56 @@
-﻿using System;
-using System.Linq;
-using System.Security.Claims;
+﻿using System.Linq;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazor5Auth.Server.Extensions;
-using Blazor5Auth.Server.Models;
-using Blazor5Auth.Server.Services;
-using Blazor5Auth.Shared;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Blazor5Auth.Server.Extensions;
+using Blazor5Auth.Server.Models;
+using Features.Base;
+using FluentValidation;
+using MediatR;
+using Reinforced.Typings.Attributes;
 
-namespace Features.Account.Manage
+namespace Features.Account
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class ResetPassword_ : ResetPassword
+    public class ResetPassword
     {
-        public class CommandHandler : ICommandHandler
+        [TsInterface(Name = "ResetPasswordCommand")]
+        public class Command : IRequest<Result>
+        {
+            public string Code { get; set; }
+            public string Email { get; set; }
+            public string Password { get; set; }
+            public string ConfirmPassword { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(p => p.Code).NotEmpty();
+                RuleFor(p => p.Email).NotEmpty().EmailAddress();
+                RuleFor(p => p.Password).NotEmpty().MinimumLength(8);
+                RuleFor(p => p.ConfirmPassword).Matches(v => v.Password);
+            }
+        }
+
+        public class Result : BaseResult { }
+
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly UserManager<ApplicationUser> _userManager;
-            private readonly SignInManager<ApplicationUser> _signInManager;
-            private readonly ClaimsPrincipal _user;
-            private readonly IHttpContextAccessor _contextAccessor;
-            private readonly IEmailService _emailService;
 
-            public CommandHandler(UserManager<ApplicationUser> userManager, IUserAccessor user, IEmailService emailService, IHttpContextAccessor contextAccessor, SignInManager<ApplicationUser> signInManager)
+            public CommandHandler(UserManager<ApplicationUser> userManager)
             {
                 _userManager = userManager;
-                _user = user.User;
-                _emailService = emailService;
-                _contextAccessor = contextAccessor;
-                _signInManager = signInManager;
             }
 
             public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
             {
                 var user = await _userManager.FindByEmailAsync(request.Email);
                 if (user == null) return new Result().Succeeded();
-                
+
                 var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Code));
 
                 var result = await _userManager.ResetPasswordAsync(user, code, request.Password);

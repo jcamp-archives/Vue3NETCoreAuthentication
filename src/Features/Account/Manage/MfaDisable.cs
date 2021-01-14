@@ -1,18 +1,21 @@
-﻿using System;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Blazor5Auth.Server.Extensions;
 using Blazor5Auth.Server.Models;
-using Blazor5Auth.Shared;
-using Microsoft.AspNetCore.Identity;
+using Features.Base;
+using MediatR;
 
 namespace Features.Account.Manage
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class MfaDisable_ : MfaDisable
+    public class MfaDisable
     {
-        public class CommandHandler : ICommandHandler
+        public class Command : IRequest<Result> { }
+
+        public class Result : BaseResult { }
+
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly ClaimsPrincipal _user;

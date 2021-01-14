@@ -25,7 +25,8 @@ namespace Features.Account
         public async Task<IActionResult> Register(Register.Command model) => await Send(model);
 
         [HttpPost]
-        public async Task<IActionResult> ConfirmEmailChange(ConfirmEmailChange.Command model) {
+        public async Task<IActionResult> ConfirmEmailChange(ConfirmEmailChange.Command model)
+        {
             model.ClientAuth = false;
             return await Send(model);
         }

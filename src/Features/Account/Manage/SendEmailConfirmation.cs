@@ -4,20 +4,24 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazor5Auth.Server.Extensions;
-using Blazor5Auth.Server.Models;
-using Blazor5Auth.Server.Services;
-using Blazor5Auth.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Blazor5Auth.Server.Extensions;
+using Blazor5Auth.Server.Models;
+using Blazor5Auth.Server.Services;
+using Features.Base;
+using MediatR;
 
 namespace Features.Account.Manage
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class SendEmailConfirmation_ : SendEmailConfirmation
+    public class SendEmailConfirmation
     {
-        public class CommandHandler : ICommandHandler
+        public class Command : IRequest<Result> { }
+
+        public class Result : BaseResult { }
+
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly ClaimsPrincipal _user;
@@ -36,8 +40,6 @@ namespace Features.Account.Manage
             {
                 var user = await _userManager.GetUserAsync(_user);
                 var email = await _userManager.GetEmailAsync(user);
-                var statusMessage = "";
-
                 var userId = await _userManager.GetUserIdAsync(user);
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
@@ -51,8 +53,7 @@ namespace Features.Account.Manage
                 await _emailService.SendAsync(email, "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                statusMessage = "Confirmation link sent. Please check your email.";
-
+                var statusMessage = "Confirmation link sent. Please check your email.";
                 return new Result().Succeeded(statusMessage);
             }
         }

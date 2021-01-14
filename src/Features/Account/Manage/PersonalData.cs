@@ -2,35 +2,50 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Blazor5Auth.Server.Extensions;
 using Blazor5Auth.Server.Models;
-using Blazor5Auth.Shared;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using QRCoder;
+using Features.Base;
+using FluentValidation;
+using MediatR;
 
 namespace Features.Account.Manage
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class PersonalData_ : PersonalData
+    public class PersonalData
     {
-        public class QueryHandler : IQueryHandler
+        public class Query : IRequest<QueryResult> { }
+
+        public class QueryResult : BaseResult
+        {
+            public string JsonData { get; set; }
+        }
+
+        public class Command : IRequest<Result>
+        {
+            public string Password { get; set; }
+        }
+
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
+            {
+                RuleFor(p => p.Password).NotEmpty().MinimumLength(8);
+            }
+        }
+
+        public class Result : BaseResult { }
+
+        public class QueryHandler : IRequestHandler<Query, QueryResult>
         {
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly ClaimsPrincipal _user;
-            private readonly UrlEncoder _urlEncoder;
 
-            private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
-
-            public QueryHandler(UserManager<ApplicationUser> userManager, IUserAccessor user, UrlEncoder urlEncoder)
+            public QueryHandler(UserManager<ApplicationUser> userManager, IUserAccessor user)
             {
                 _userManager = userManager;
-                _urlEncoder = urlEncoder;
                 _user = user.User;
             }
 
@@ -65,7 +80,7 @@ namespace Features.Account.Manage
 
         }
 
-        public class CommandHandler : ICommandHandler
+        public class CommandHandler : IRequestHandler<Command, Result>
         {
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly ClaimsPrincipal _user;

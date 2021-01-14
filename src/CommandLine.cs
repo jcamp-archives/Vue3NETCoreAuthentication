@@ -66,10 +66,10 @@ namespace CommandLine
         public static StringDictionary Parse(string[] args)
         {
             var parameters = new StringDictionary();
-            Regex splitter = new Regex(@"^-{1,2}|^/|=|:",
+            var splitter = new Regex(@"^-{1,2}|^/|=|:",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-            Regex remover = new Regex(@"^['""]?(.*?)['""]?$",
+            var remover = new Regex(@"^['""]?(.*?)['""]?$",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
             string parameter = null;
@@ -80,7 +80,7 @@ namespace CommandLine
             // Examples:
             // -param1 value1 --param2 /param3:"Test-:-work"
             //   /param4=happy -param5 '--=nice=--'
-            foreach (string txt in args)
+            foreach (var txt in args)
             {
                 // Look for new parameters (-,/ or --) and a
                 // possible enclosed value (=,:)

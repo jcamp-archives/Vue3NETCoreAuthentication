@@ -1,17 +1,29 @@
 ﻿using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazor5Auth.Server.Extensions;
-using Blazor5Auth.Server.Models;
-using Blazor5Auth.Shared;
 using Microsoft.AspNetCore.Identity;
+using Blazor5Auth.Server.Models;
+using Features.Base;
+using MediatR;
+using Reinforced.Typings.Attributes;
 
 namespace Features.Account.Manage
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class MfaInfo_ : MfaInfo
+    public class MfaInfo
     {
-        public class QueryHandler : IQueryHandler
+        public class Query : IRequest<Result> { }
+
+        [TsInterface(Name = "MfaInfo")]
+        public class Result : BaseResult
+        {
+            public bool HasAuthenticator { get; set; }
+            public int RecoveryCodesLeft { get; set; }
+            public bool IsMfaEnabled { get; set; }
+            public bool IsMachineRemembered { get; set; }
+        }
+
+
+        public class QueryHandler : IRequestHandler<Query, Result>
         {
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly SignInManager<ApplicationUser> _signInManager;

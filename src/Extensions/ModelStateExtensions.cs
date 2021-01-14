@@ -9,7 +9,7 @@ namespace Blazor5Auth.Server.Extensions
     {
         public static IDictionary<string, string> ToDictionary(this ModelStateDictionary modelState)
         {
-            var Errors = new Dictionary<string, string>(StringComparer.Ordinal);
+            var result = new Dictionary<string, string>(StringComparer.Ordinal);
             foreach (var keyModelStatePair in modelState)
             {
                 var key = keyModelStatePair.Key;
@@ -26,27 +26,28 @@ namespace Blazor5Auth.Server.Extensions
                     if (errors.Count == 1)
                     {
                         var errorMessage = GetErrorMessage(errors[0]);
-                        Errors.Add(key, errorMessage);
+                        result.Add(key, errorMessage);
                     }
                     else
                     {
                         var errorMessages = "";
                         for (var i = 0; i < errors.Count; i++)
                         {
-                            if (i > 0) {
-                              errorMessages += ", ";
+                            if (i > 0)
+                            {
+                                errorMessages += ", ";
                             }
                             errorMessages += GetErrorMessage(errors[i]);
                         }
 
-                        Errors.Add(key, errorMessages);
+                        result.Add(key, errorMessages);
                     }
                 }
             }
 
-            return Errors;
+            return result;
 
-            string GetErrorMessage(ModelError error)
+            static string GetErrorMessage(ModelError error)
             {
                 return string.IsNullOrEmpty(error.ErrorMessage) ? "The input was not valid." : error.ErrorMessage;
             }

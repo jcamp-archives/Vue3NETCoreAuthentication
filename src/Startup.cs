@@ -1,28 +1,23 @@
-﻿using Blazor5Auth.Server.Data;
-using Blazor5Auth.Server.Extensions;
-using Blazor5Auth.Server.Models;
-using Blazor5Auth.Shared;
+﻿using System.Text;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using System.Linq;
-using System.Text;
+using Blazor5Auth.Server.Data;
+using Blazor5Auth.Server.Extensions;
+using Blazor5Auth.Server.Models;
+using Blazor5Auth.Server.Services;
+using Blazor5Auth.Shared;
 using Features.Account;
 using Features.Base;
 using FluentValidation.AspNetCore;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Blazor5Auth.Server.Services;
-using MongoFramework;
 using MongoFramework.AspNetCore.Identity;
-using System.Text.Json;
 using VueCliMiddleware;
 
 namespace Blazor5Auth.Server
@@ -109,7 +104,7 @@ namespace Blazor5Auth.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            _ = CommandLine.Arguments.TryGetOptions(System.Environment.GetCommandLineArgs(), false, out string mode, out ushort port, out bool https);
+            _ = CommandLine.Arguments.TryGetOptions(System.Environment.GetCommandLineArgs(), false, out var mode, out var port, out var https);
 
             if (env.IsDevelopment())
             {
@@ -137,7 +132,7 @@ namespace Blazor5Auth.Server
 
             app.UseEndpoints(endpoints =>
             {
-//                endpoints.MapRazorPages();
+                //                endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 // endpoints.MapControllerRoute(
                 //     name: "default",
@@ -155,14 +150,16 @@ namespace Blazor5Auth.Server
                 {
 
                     // run npm process with client app
-                    if (mode == "start") {
+                    if (mode == "start")
+                    {
                         spa.UseVueCli(npmScript: "serve", port: port, forceKill: true, https: https);
                     }
 
                     // if you just prefer to proxy requests from client app, use proxy to SPA dev server instead,
                     // app should be already running before starting a .NET client:
                     // run npm process with client app
-                    if (mode == "attach") {
+                    if (mode == "attach")
+                    {
                         spa.UseProxyToSpaDevelopmentServer($"{(https ? "https" : "http")}://localhost:{port}"); // your Vue app port
                     }
                 }

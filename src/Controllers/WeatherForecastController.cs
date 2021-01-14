@@ -14,17 +14,12 @@ namespace Blazor5Auth.Server.Controllers
     [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        private readonly string[] _summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
+        public WeatherForecastController() { }
 
         [HttpGet]
         public IEnumerable<WeatherForecast> Get()
@@ -34,7 +29,7 @@ namespace Blazor5Auth.Server.Controllers
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
+                Summary = _summaries[rng.Next(_summaries.Length)]
             })
             .ToArray();
         }

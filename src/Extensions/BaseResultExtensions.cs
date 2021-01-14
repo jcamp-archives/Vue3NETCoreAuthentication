@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Features.Base;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Features.Base;
 
 namespace Blazor5Auth.Server.Extensions
 {
@@ -39,7 +38,7 @@ namespace Blazor5Auth.Server.Extensions
             result.IsSuccessful = false;
             foreach (var error in errors)
             {
-                result.Errors.Add("",error);
+                result.Errors.Add("", error);
             }
             return result;
         }

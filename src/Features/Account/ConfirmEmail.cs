@@ -1,36 +1,45 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
+﻿using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazor5Auth.Server.Extensions;
-using Blazor5Auth.Server.Models;
-using Blazor5Auth.Server.Services;
-using Blazor5Auth.Shared;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Blazor5Auth.Server.Extensions;
+using Blazor5Auth.Server.Models;
+using Features.Base;
+using FluentValidation;
+using MediatR;
 
 namespace Features.Account
 {
-    //this allows us to avoid Create. in front of results, commands, etc
-    public class ConfirmEmail_ : ConfirmEmail
+    public class ConfirmEmail
     {
-        public class CommandHandler : ICommandHandler
+        public class Command : IRequest<Result>
         {
-            private readonly IJwtHelper _jwtHelper;
-            private readonly SignInManager<ApplicationUser> _signInManager;
-            private readonly IHttpContextAccessor _contextAccessor;
-            private readonly IEmailService _emailService;
+            public string UserId { get; set; }
+            public string Code { get; set; }
+        }
 
-            public CommandHandler(IJwtHelper jwtHelper,
-                SignInManager<ApplicationUser> signInManager, IHttpContextAccessor contextAccessor, IEmailService emailService)
+        public class CommandValidator : AbstractValidator<Command>
+        {
+            public CommandValidator()
             {
-                _jwtHelper = jwtHelper;
+                RuleFor(p => p.UserId).NotEmpty();
+                RuleFor(p => p.Code).NotEmpty();
+            }
+        }
+
+        public class Result : BaseResult
+        {
+            public bool RequiresEmailConfirmation { get; set; }
+        }
+
+        public class CommandHandler : IRequestHandler<Command, Result>
+        {
+            private readonly SignInManager<ApplicationUser> _signInManager;
+
+            public CommandHandler(SignInManager<ApplicationUser> signInManager)
+            {
                 _signInManager = signInManager;
-                _contextAccessor = contextAccessor;
-                _emailService = emailService;
             }
 
             public async Task<Result> Handle(Command request, CancellationToken cancellationToken)
@@ -44,12 +53,15 @@ namespace Features.Account
                 var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Code));
                 var result = await _signInManager.UserManager.ConfirmEmailAsync(user, code);
 
-                if (!result.Succeeded) {
+                if (!result.Succeeded)
+                {
                     return new Result().Failed("Error confirming your email.");
                 }
 
                 return new Result().Succeeded("Thank you for confirming your email. You may now login.");
             }
         }
+
+
     }
 }

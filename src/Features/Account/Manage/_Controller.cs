@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Features.Base;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Features.Base;
+using MediatR;
 
 namespace Features.Account.Manage
 {
@@ -49,7 +49,8 @@ namespace Features.Account.Manage
         public async Task<IActionResult> SendEmailConfirmation() => await Send(new SendEmailConfirmation.Command());
 
         [HttpPost]
-        public async Task<IActionResult> ConfirmEmailChange(ConfirmEmailChange.Command model) {
+        public async Task<IActionResult> ConfirmEmailChange(ConfirmEmailChange.Command model)
+        {
             model.ClientAuth = true;
             return await Send(model);
         }

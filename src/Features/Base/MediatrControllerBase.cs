@@ -8,17 +8,17 @@ namespace Features.Base
     [Route("api/[controller]/[action]")]
     public class MediatrControllerBase : ControllerBase
     {
-     
-        protected readonly ISender _sender;
-        
+
+        protected readonly ISender Sender;
+
         public MediatrControllerBase(ISender sender)
         {
-            _sender = sender;
+            Sender = sender;
         }
 
         protected async Task<IActionResult> Send<T>(IRequest<T> request)
         {
-            var result = await _sender.Send(request);
+            var result = await Sender.Send(request);
             if (result is BaseResult baseResult)
             {
                 if (!baseResult.IsSuccessful)
@@ -27,6 +27,6 @@ namespace Features.Base
                 }
             }
             return Ok(result);
-        }   
+        }
     }
 }
