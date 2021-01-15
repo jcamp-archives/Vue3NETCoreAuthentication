@@ -27,6 +27,10 @@ class AuthStore extends VuexModule {
     return false
   }
 
+  get userName(): string {
+    return this.authInfo?.userName ?? ''
+  }
+
   get isUserInRole() {
     return (role: string): boolean => {
       if (this.authInfo === null) return false

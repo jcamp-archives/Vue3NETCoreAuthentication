@@ -3,6 +3,7 @@
     <NavMenu />
     <div class="main">
       <div class="top-row px-4">
+        <LoginDisplay />
         <a
           href="https://github.com/SoftwareAteliers/asp-net-core-vue-starter"
           target="_blank"
@@ -20,6 +21,7 @@
 
 <script setup lang="ts">
 import NavMenu from '@/components/NavMenu.vue'
+import LoginDisplay from '@/components/LoginDisplay.vue'
 </script>
 
 <style scoped>
