@@ -1,29 +1,21 @@
 <template>
-  <template v-if="loggedIn">
+  <Authorized v-slot="{ userName }">
     <router-link to="/account/manage/">Hello, {{ userName }}!</router-link>
     <button class="nav-link btn btn-link" @click.prevent="beginLogout">Log out</button>
-  </template>
-  <template v-else>
+  </Authorized>
+  <NotAuthorized>
     <router-link to="/account/register">Register</router-link>
     <button class="nav-link btn btn-link" @click.prevent="beginLogin">Log in</button>
-  </template>
+  </NotAuthorized>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import authStore from '@/store/authStore'
+import Authorized from './Authorized.vue'
+import NotAuthorized from './NotAuthorized.vue'
 
 const router = useRouter()
 const route = useRoute()
-
-const loggedIn = computed(() => {
-  return authStore.isAuthenticated
-})
-
-const userName = computed(() => {
-  return authStore.userName
-})
 
 const beginLogin = () => {
   router.push({ path: '/account/login', query: { returnUrl: route.fullPath } })
