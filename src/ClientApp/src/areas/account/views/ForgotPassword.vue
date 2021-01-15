@@ -1,5 +1,5 @@
 ﻿<template>
-  <h1>Resend Email Confirmation</h1>
+  <h1>Forgot Password</h1>
 
   <div class="card">
     <div class="card-body">
@@ -16,14 +16,15 @@
           />
           <ErrorMessage class="invalid-feedback" name="email" />
         </div>
-        <button type="submit" class="btn btn-primary">Resend</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
       </Form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Field, Form, ErrorMessage, SubmissionContext } from 'vee-validate'
+import { Field, Form, ErrorMessage } from 'vee-validate'
+import type { SubmissionContext } from 'vee-validate'
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'
@@ -43,8 +44,8 @@ const onSubmit = async (values: any, actions: SubmissionContext) => {
   message.value = ''
   error.value = ''
   try {
-    const response = await axios.post('/api/account/resendemailconfirmation', model)
-    message.value = response.data.message
+    const response = await axios.post('/api/account/forgotpassword', model)
+    router.push('/Account/ForgotPasswordConfirmation')
   } catch (ex) {
     error.value = ex.response.data.message
     actions.setErrors(ex.response.data.errors)

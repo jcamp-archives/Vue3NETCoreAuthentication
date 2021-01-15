@@ -1,19 +1,29 @@
 ﻿<template>
-  <h1>Reset Password</h1>
+  <h1>Change Password</h1>
   <div v-if="message" class="alert alert-success" role="alert">{{ message }}</div>
   <div v-if="error" class="alert alert-danger" role="alert">{{ error }}</div>
 
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Please enter your details</h5>
-      <Form @submit="onSubmit" :validation-schema="PasswordSchema" v-slot="{ errors }">
+      <Form @submit="onSubmit" :validation-schema="Schema" v-slot="{ errors }">
         <div class="form-group">
-          <label for="password">New Password</label>
+          <label for="oldPassword">Old Password</label>
+          <Field
+            v-model="model.oldPassword"
+            name="oldPassword"
+            type="password"
+            v-focus
+            class="form-control"
+            :class="{ 'is-invalid': errors.oldPassword }"
+          />
+          <ErrorMessage class="invalid-feedback" name="oldPassword" />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
           <Field
             v-model="model.password"
             name="password"
             type="password"
-            v-focus
             class="form-control"
             :class="{ 'is-invalid': errors.password }"
           />
@@ -30,41 +40,38 @@
           />
           <ErrorMessage class="invalid-feedback" name="confirmPassword" />
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+
+        <button type="submit" class="btn btn-primary">Update Password</button>
       </Form>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Field, Form, ErrorMessage, SubmissionContext } from 'vee-validate'
-import { ref, reactive, onMounted } from 'vue'
+import { Field, Form, ErrorMessage } from 'vee-validate'
+import type { SubmissionContext } from 'vee-validate'
+import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { IResetPasswordCommand, PasswordSchema } from './models'
+import { PasswordSchema } from '../../models'
 import axios from 'axios'
+import * as Yup from 'yup'
 
 const router = useRouter()
 const route = useRoute()
 const message = ref('')
 const error = ref('')
-const model: IResetPasswordCommand = reactive({} as IResetPasswordCommand)
+const model = reactive({ oldPassword: '', password: '', confirmPassword: '' })
 
-onMounted(() => {
-  let email = route.query.email
-  let code = route.query.code
-
-  if (!email || !code) router.push('/')
-
-  model.email = email as string
-  model.code = code as string
+const Schema = PasswordSchema.shape({
+  oldPassword: Yup.string().label('Old Password').required().min(8)
 })
 
 const onSubmit = async (values: any, actions: SubmissionContext) => {
   message.value = ''
   error.value = ''
   try {
-    await axios.post('/api/account/resetpassword', model)
-    router.push('/Account/ResetPasswordConfirmation')
+    const response = await axios.post('/api/account/manage/changepassword', model)
+    message.value = response.data.message
   } catch (ex) {
     error.value = ex.response.data.message
     actions.setErrors(ex.response.data.errors)

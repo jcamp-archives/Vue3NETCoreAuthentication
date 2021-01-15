@@ -61,7 +61,7 @@ import { Field, Form, ErrorMessage } from 'vee-validate'
 import { ref, reactive, onBeforeMount } from 'vue'
 import axios from 'axios'
 import * as Yup from 'yup'
-import type { IMfaEnableResult } from './models'
+import type { IMfaEnableResult } from '../../models'
 
 const message = ref('')
 const error = ref('')

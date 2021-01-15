@@ -74,7 +74,7 @@
 <script setup lang="ts">
 import { ref, reactive, onBeforeMount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { IMfaInfo } from './models'
+import type { IMfaInfo } from '../../models'
 import axios from 'axios'
 
 const router = useRouter()

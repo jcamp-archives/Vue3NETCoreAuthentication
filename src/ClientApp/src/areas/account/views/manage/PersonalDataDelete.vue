@@ -34,7 +34,8 @@
 </template>
 
 <script setup lang="ts">
-import { Field, Form, ErrorMessage, SubmissionContext } from 'vee-validate'
+import { Field, Form, ErrorMessage } from 'vee-validate'
+import type { SubmissionContext } from 'vee-validate'
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios'

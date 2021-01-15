@@ -45,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import type { ILoginCommand, ILoginResult } from './models'
+import type { ILoginCommand, ILoginResult } from '../models'
 import { Field, Form, ErrorMessage } from 'vee-validate'
 import { ref, reactive, onBeforeMount } from 'vue'
 import axios from 'axios'
