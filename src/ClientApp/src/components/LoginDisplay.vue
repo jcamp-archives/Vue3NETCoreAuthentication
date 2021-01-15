@@ -11,8 +11,7 @@
 
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
-import Authorized from './Authorized.vue'
-import NotAuthorized from './NotAuthorized.vue'
+import { Authorized, NotAuthorized } from './AuthorizeViews'
 
 const router = useRouter()
 const route = useRoute()
