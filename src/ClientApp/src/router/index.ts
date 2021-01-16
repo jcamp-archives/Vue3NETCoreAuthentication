@@ -1,11 +1,10 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
-import NoPermission from '../views/NoPermission.vue'
+import NoPermission from '@/areas/account/views/NoPermission.vue'
 import Admin from '../views/Admin.vue'
 import Validation from '../views/Validation-Class.vue'
 import AccountRoutes from '@/areas/account/routes'
 import authStore from '@/store/authStore'
-import axios from 'axios'
 
 const token = localStorage.getItem('token')
 if (token) authStore.updateToken(token)

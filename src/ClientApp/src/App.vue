@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import NavMenu from '@/components/NavMenu.vue'
-import LoginDisplay from '@/components/LoginDisplay.vue'
+import LoginDisplay from '@/areas/account/components/LoginDisplay.vue'
 </script>
 
 <style scoped>
