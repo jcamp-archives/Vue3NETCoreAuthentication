@@ -5,6 +5,7 @@ import Admin from '../views/Admin.vue'
 import Validation from '../views/Validation-Class.vue'
 import AccountRoutes from '@/areas/account/routes'
 import authStore from '@/store/authStore'
+import TestLayout from '@/layouts/TestLayout.vue'
 
 const token = localStorage.getItem('token')
 if (token) authStore.updateToken(token)
@@ -29,6 +30,7 @@ const baseRoutes: Array<RouteRecordRaw> = [
   {
     path: '/counter',
     name: 'counter',
+    meta: { layout: TestLayout },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
