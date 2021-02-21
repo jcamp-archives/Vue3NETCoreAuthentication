@@ -3,7 +3,7 @@
     <NavMenu />
     <div class="flex flex-col flex-grow w-full bg-white">
       <div
-        class="flex-row items-center justify-end flex-shrink-0 hidden px-4 pr-8 text-blue-500 bg-gray-100 border-b border-gray-300 md:flex h-14"
+        class="flex-row items-center justify-between flex-shrink-0 hidden px-4 pr-8 text-blue-500 bg-gray-100 border-b border-gray-300 md:flex h-14"
       >
         <LoginDisplay />
 

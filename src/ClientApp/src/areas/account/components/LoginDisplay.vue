@@ -1,11 +1,15 @@
 <template>
   <Authorized v-slot="{ userName }">
-    <router-link to="/account/manage/">Hello, {{ userName }}!</router-link>
-    <button class="px-4 focus:outline-none" @click.prevent="beginLogout">Log out</button>
+    <div>
+      <router-link to="/account/manage/">Hello, {{ userName }}!</router-link>
+      <button class="px-4 focus:outline-none" @click.prevent="beginLogout">Log out</button>
+    </div>
   </Authorized>
   <NotAuthorized>
-    <router-link to="/account/register">Register</router-link>
-    <button class="px-4 focus:outline-none" @click.prevent="beginLogin">Log in</button>
+    <div>
+      <router-link to="/account/register">Register</router-link>
+      <button class="px-4 focus:outline-none" @click.prevent="beginLogin">Log in</button>
+    </div>
   </NotAuthorized>
 </template>
 
