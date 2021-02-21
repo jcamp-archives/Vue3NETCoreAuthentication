@@ -1,10 +1,10 @@
 <template>
   <div>
     <blockquote>
-      &#8220;{{ quote }}&#8221;
+      &#8220;{{ props.quote }}&#8221;
       <footer>
         <small>
-          <em>&mdash;{{ author }}</em>
+          <em>&mdash;{{ props.author }}</em>
         </small>
       </footer>
     </blockquote>

@@ -21,29 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\AccountController.cs" />
-    <Compile Remove="Controllers\LoginController.cs" />
-    <Compile Remove="Controllers\SetupMfaController.cs" />
-    <Compile Remove="ClientApp\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="ClientApp\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="ClientApp\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="ClientApp\**" />
+    <None Remove="ClientApp\**" />
+    <Content Remove="ClientAppVueCli\**" />
+    <None Remove="ClientAppVueCli\**" />
   </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="ClientApp\package.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\public\manifest.json" />
-    <_ContentIncludedByDefault Remove="ClientApp\tsconfig.json" />
-  </ItemGroup>
-
 
 </Project>

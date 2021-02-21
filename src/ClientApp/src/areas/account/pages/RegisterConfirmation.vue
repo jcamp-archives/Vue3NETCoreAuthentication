@@ -1,5 +1,4 @@
 <template>
   <h1>Register confirmation</h1>
-
   <p>Please check your email to confirm your account.</p>
 </template>

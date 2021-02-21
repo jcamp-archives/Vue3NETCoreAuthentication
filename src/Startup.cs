@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -143,6 +144,9 @@ namespace Blazor5Auth.Server
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
+                
+                // Be sure env variable is set on Mac
+                // export ASPNETCORE_ENVIRONMENT="Development" 
 
                 spa.Options.SourcePath = "ClientApp";
 
@@ -150,9 +154,9 @@ namespace Blazor5Auth.Server
                 {
 
                     // run npm process with client app
-                    if (mode == "start")
-                    {
-                        spa.UseVueCli(npmScript: "serve", port: port, forceKill: true, https: https);
+                    if (mode == "start") {
+                        Console.WriteLine("Vue start mode");
+                        spa.UseVueCli(npmScript: "dev", port: port, forceKill: true, https: https);
                     }
 
                     // if you just prefer to proxy requests from client app, use proxy to SPA dev server instead,
@@ -160,7 +164,9 @@ namespace Blazor5Auth.Server
                     // run npm process with client app
                     if (mode == "attach")
                     {
-                        spa.UseProxyToSpaDevelopmentServer($"{(https ? "https" : "http")}://localhost:{port}"); // your Vue app port
+                        var url = $"{(https ? "https" : "http")}://localhost:{port}";
+                        Console.WriteLine($"Vue Attach mode, url: {url}");
+                        spa.UseProxyToSpaDevelopmentServer(url); 
                     }
                 }
             });

@@ -3,7 +3,7 @@ import store from './index'
 
 @Module({
   name: 'counter',
-  store: store,
+  store,
   dynamic: true
 })
 class CounterStore extends VuexModule {
@@ -13,6 +13,7 @@ class CounterStore extends VuexModule {
   increment(delta: number): void {
     this.count += delta
   }
+
   @Mutation
   decrement(delta: number): void {
     this.count -= delta
@@ -28,6 +29,7 @@ class CounterStore extends VuexModule {
   public incr(): number {
     return 1
   }
+
   // action 'decr' commits mutation 'decrement' when done with return value as payload
   @Action({ commit: 'decrement' })
   public decr(): number {

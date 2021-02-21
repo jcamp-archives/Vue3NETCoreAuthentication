@@ -1,7 +1,7 @@
 import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators'
-import store from './index'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
+import store from './index'
 
 export interface IAuthInfo {
   accessToken: string
@@ -12,7 +12,7 @@ export interface IAuthInfo {
 
 @Module({
   name: 'auth',
-  store: store,
+  store,
   dynamic: true
 })
 class AuthStore extends VuexModule {
@@ -20,7 +20,7 @@ class AuthStore extends VuexModule {
 
   get isAuthenticated(): boolean {
     if (this.authInfo !== null && this.authInfo.accessToken) {
-      //check exp
+      // check exp
       if (new Date() <= (this.authInfo.accessTokenExpiration as Date)) return true
     }
 
@@ -42,9 +42,7 @@ class AuthStore extends VuexModule {
   get isUserInAnyRole() {
     return (roles: string[]): boolean => {
       if (this.authInfo === null) return false
-      return this.authInfo.userRoles.some((v) =>
-        roles.find((r) => r.toLowerCase() === v.toLowerCase())
-      )
+      return this.authInfo.userRoles.some((v) => roles.find((r) => r.toLowerCase() === v.toLowerCase()))
     }
   }
 
@@ -59,9 +57,9 @@ class AuthStore extends VuexModule {
       accessToken: token,
       userName: decode[`http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name`],
       userRoles: role,
-      accessTokenExpiration: new Date(decode['exp'] * 1000)
+      accessTokenExpiration: new Date(decode.exp * 1000)
     }
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`
   }
 
   @Mutation
@@ -78,7 +76,7 @@ class AuthStore extends VuexModule {
   @Action
   logout(): void {
     this.clearToken()
-    delete axios.defaults.headers.common['Authorization']
+    delete axios.defaults.headers.common.Authorization
     localStorage.removeItem('token')
   }
 }

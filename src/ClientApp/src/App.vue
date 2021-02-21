@@ -1,13 +1,15 @@
 <template>
-  <div id="app">
-    <component :is="route.meta.layout || DefaultLayout">
-      <router-view />
-    </component>
-  </div>
+  <router-view />
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
-import DefaultLayout from '@/layouts/DefaultLayout.vue'
-const route = useRoute()
+import { useHead } from '@vueuse/head'
+
+// https://github.com/vueuse/head
+// you can use this to manipulate the document head in any components,
+// they will be renedered correctly in the html results with vite-ssg
+useHead({
+  title: 'Vitesse',
+  meta: [{ name: 'description', content: 'Opinionated Vite Starter Template' }]
+})
 </script>
