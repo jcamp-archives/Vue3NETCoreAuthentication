@@ -1,50 +1,47 @@
 ﻿<template>
-  <h1>Change Password</h1>
+  <h2>Change Password</h2>
   <TwAlertSuccess v-if="message">{{ message }}</TwAlertSuccess>
   <TwAlertDanger v-if="error">{{ error }}</TwAlertDanger>
 
-  <div class="card">
-    <div class="card-body">
+  <TwCard class="max-w-lg mt-8">
+    <div class="grid grid-cols-1 gap-6">
       <Form v-slot="{ errors }" :validation-schema="Schema" @submit="onSubmit">
-        <div class="form-group">
-          <label for="oldPassword">Old Password</label>
+        <TwFormGroup label="Old Password">
           <Field
             v-model="model.oldPassword"
             v-focus
             name="oldPassword"
             type="password"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.oldPassword }"
           />
           <ErrorMessage class="invalid-feedback" name="oldPassword" />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
+        </TwFormGroup>
+        <TwFormGroup label="Password">
           <Field
             v-model="model.password"
             name="password"
             type="password"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.password }"
           />
           <ErrorMessage class="invalid-feedback" name="password" />
-        </div>
-        <div class="form-group">
-          <label for="confirmpassword">Confirm Password</label>
+        </TwFormGroup>
+        <TwFormGroup label="Confirm Password">
           <Field
             v-model="model.confirmPassword"
             name="confirmPassword"
             type="password"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.confirmPassword }"
           />
           <ErrorMessage class="invalid-feedback" name="confirmPassword" />
-        </div>
+        </TwFormGroup>
 
-        <button type="submit" class="btn btn-primary">Update Password</button>
+        <button type="submit" class="mt-4 btn">Update Password</button>
       </Form>
     </div>
-  </div>
+  </TwCard>
 </template>
 
 <script setup lang="ts">

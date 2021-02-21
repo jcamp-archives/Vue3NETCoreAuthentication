@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
     "baseUrl": ".",
     "module": "ESNext",
     "target": "es2016",

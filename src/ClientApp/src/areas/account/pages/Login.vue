@@ -17,7 +17,7 @@
             :class="{ 'is-invalid': errors.email }"
             :validate-on-blur="false"
           />
-          <ErrorMessage class="error-message" name="email" />
+          <ErrorMessage class="invalid-feedback" name="email" />
         </TwFormGroup>
         <TwFormGroup label="Password">
           <Field

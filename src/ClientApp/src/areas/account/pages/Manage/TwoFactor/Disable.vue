@@ -1,5 +1,5 @@
 ﻿<template>
-  <h1>Disable multi-factor authentication (MFA)</h1>
+  <h2>Disable multi-factor authentication (MFA)</h2>
 
   <div class="alert alert-warning" role="alert">
     <p>
@@ -13,7 +13,7 @@
   </div>
 
   <div>
-    <button class="btn btn-danger" @click.prevent="disableMfa">Disable MFA</button>
+    <button class="mt-4 bg-red-400 btn" @click.prevent="disableMfa">Disable MFA</button>
   </div>
 </template>
 

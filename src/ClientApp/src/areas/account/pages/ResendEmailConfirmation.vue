@@ -1,25 +1,23 @@
 ﻿<template>
   <h1>Resend Email Confirmation</h1>
-
-  <div class="card">
-    <div class="card-body">
+  <TwCard title="Please enter your details" class="max-w-lg mt-8">
+    <div class="grid grid-cols-1 gap-6">
       <Form v-slot="{ errors }" :validation-schema="Schema" @submit="onSubmit">
-        <div class="form-group">
-          <label for="email">Email address</label>
+        <TwFormGroup label="Email address">
           <Field
             v-model="model.email"
             v-focus
             name="email"
             type="text"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.email }"
           />
           <ErrorMessage class="invalid-feedback" name="email" />
-        </div>
-        <button type="submit" class="btn btn-primary">Resend</button>
+        </TwFormGroup>
+        <button type="submit" class="mt-4 btn">Resend</button>
       </Form>
     </div>
-  </div>
+  </TwCard>
 </template>
 
 <script setup lang="ts">

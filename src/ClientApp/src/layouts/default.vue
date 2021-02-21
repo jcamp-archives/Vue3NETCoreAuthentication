@@ -5,6 +5,8 @@
       <div
         class="flex-row items-center justify-end flex-shrink-0 hidden px-4 pr-8 text-blue-500 bg-gray-100 border-b border-gray-300 md:flex h-14"
       >
+        <LoginDisplay />
+
         <a href="https://github.com/SoftwareAteliers/asp-net-core-vue-starter" target="_blank" class="ml-md-auto"
           >About</a
         >

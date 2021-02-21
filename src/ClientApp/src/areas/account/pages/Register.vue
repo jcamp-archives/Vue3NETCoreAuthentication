@@ -1,48 +1,44 @@
 <template>
   <h1>Register</h1>
 
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Please enter your details</h5>
+  <TwCard title="Please enter your details" class="max-w-lg mt-8">
+    <div class="grid grid-cols-1 gap-6">
       <Form v-slot="{ errors }" :validation-schema="Schema" @submit="onSubmit">
-        <div class="form-group">
-          <label for="email">Email address</label>
+        <TwFormGroup label="Email address">
           <Field
             v-model="model.email"
             v-focus
             name="email"
             type="text"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.email }"
           />
           <ErrorMessage class="invalid-feedback" name="email" />
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
+        </TwFormGroup>
+        <TwFormGroup label="Password">
           <Field
             v-model="model.password"
             name="password"
             type="password"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.password }"
           />
           <ErrorMessage class="invalid-feedback" name="password" />
-        </div>
-        <div class="form-group">
-          <label for="confirmpassword">Confirm Password</label>
+        </TwFormGroup>
+        <TwFormGroup label="Confirm Password">
           <Field
             v-model="model.confirmPassword"
             name="confirmPassword"
             type="password"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.confirmPassword }"
           />
           <ErrorMessage class="invalid-feedback" name="confirmPassword" />
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        </TwFormGroup>
+        <button type="submit" class="mt-4 btn">Submit</button>
       </Form>
     </div>
-  </div>
+  </TwCard>
 </template>
 
 <script setup lang="ts">

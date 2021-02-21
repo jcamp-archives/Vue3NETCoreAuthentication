@@ -9,26 +9,24 @@
   <TwAlertSuccess v-if="message">{{ message }}</TwAlertSuccess>
   <TwAlertDanger v-if="error">{{ error }}</TwAlertDanger>
 
-  <div class="card">
-    <div class="card-body">
+  <TwCard title="Please enter your details" class="max-w-lg mt-8">
+    <div class="grid grid-cols-1 gap-6">
       <Form v-slot="{ errors }" :validation-schema="Schema" @submit="onSubmit">
-        <div class="form-group">
-          <label for="twoFactorCode">Recovery Code</label>
+        <TwFormGroup label="Recovery Code">
           <Field
             v-model="model.recoveryCode"
             v-focus
             name="recoveryCode"
             type="text"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.recoveryCode }"
           />
           <ErrorMessage class="invalid-feedback" name="recoveryCode" />
-        </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
+        </TwFormGroup>
+        <button type="submit" class="mt-4 btn">Submit</button>
       </Form>
     </div>
-  </div>
+  </TwCard>
 </template>
 
 <script setup lang="ts">

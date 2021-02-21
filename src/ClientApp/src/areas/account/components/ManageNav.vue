@@ -1,10 +1,7 @@
 ﻿<template>
-  <ul class="nav nav-pills flex-column">
+  <ul class="flex flex-col p-4 space-y-2">
     <li v-for="(item, i) in items" :key="i" class="nav-item">
-      <router-link v-if="item.exact" class="nav-link" :to="item.link" exact-active-class="active">
-        {{ item.title }}
-      </router-link>
-      <router-link v-if="!item.exact" class="nav-link" :to="item.link" exact active-class="active">
+      <router-link :to="item.link">
         {{ item.title }}
       </router-link>
     </li>
@@ -26,3 +23,12 @@ const items = reactive([
   { title: 'Personal data', link: '/account/manage/personaldata', exact: false }
 ])
 </script>
+
+<style lang="postcss" scoped>
+li a {
+  @apply flex flex-row items-center h-12 px-4 py-2 text-sm text-blue-600 rounded hover:bg-gray-100;
+}
+li :deep(a.router-link-exact-active) {
+  @apply text-white bg-blue-600;
+}
+</style>

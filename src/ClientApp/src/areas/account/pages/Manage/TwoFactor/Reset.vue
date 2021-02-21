@@ -1,5 +1,5 @@
 ﻿<template>
-  <h1>Reset authenticator key</h1>
+  <h2>Reset authenticator key</h2>
 
   <div class="alert alert-warning" role="alert">
     <p>
@@ -14,7 +14,7 @@
     </p>
   </div>
   <div>
-    <button class="btn btn-danger" @click.prevent="resetAuth">Reset authenticator key</button>
+    <button class="mt-4 bg-red-400 btn" @click.prevent="resetAuth">Reset authenticator key</button>
   </div>
 </template>
 

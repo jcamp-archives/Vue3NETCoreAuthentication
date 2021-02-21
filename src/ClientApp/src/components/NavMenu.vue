@@ -18,6 +18,12 @@
     </div>
     <div :class="{ collapse: collapseNavMenu }" @click="ToggleNavMenu">
       <ul class="flex flex-col p-4 space-y-2">
+        <!-- <li v-for="(item, i) in items" :key="i">
+          <router-link :to="item.link" exact>
+            <component :is="item.icon" class="w-6 mr-3" aria-hidden="true"></component> {{ item.title }}
+          </router-link>
+        </li> -->
+
         <li>
           <router-link to="/"><oi-home class="w-6 mr-3" /> Home </router-link>
         </li>
@@ -39,36 +45,37 @@
         <li>
           <router-link to="/account/manage"><oi-fork class="w-6 mr-3" /> Manage </router-link>
         </li>
-        <!-- <li>
+        <li>
           <router-link to="/admin"><oi-fork class="w-6 mr-3" /> Admin </router-link>
-        </li> -->
+        </li>
       </ul>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref } from 'vue'
+// import IconHome from '/@vite-icons/oi/home'
+// import IconCounter from '/@vite-icons/oi/plus'
 
 const collapseNavMenu = ref(false)
-const items = reactive([
-  { title: 'Home', icon: 'oi-home', link: '/' },
-  { title: 'Counter', icon: 'oi-plus', link: '/Counter' },
-  { title: 'Fetch data', icon: 'oi-list-rich', link: '/Fetch-Data' }
-])
+// const items = reactive([
+//   { title: 'Home', icon: IconHome, link: '/' },
+//   { title: 'Counter', icon: IconCounter, link: '/Counter' },
+//   { title: 'Fetch data', icon: 'oi-list-rich', link: '/Fetch-Data' }
+// ])
 
 const ToggleNavMenu = (): void => {
   collapseNavMenu.value = !collapseNavMenu.value
 }
 </script>
 
-<!-- @vue-ignore -->
-<style scoped>
-li :deep(a.router-link-exact-active) {
-  @apply text-white bg-opacity-25;
-}
-
+<style lang="postcss" scoped>
 li a {
   @apply flex flex-row items-center h-12 px-4 py-2 text-sm text-gray-300 bg-white bg-opacity-0 rounded hover:bg-opacity-10;
+}
+
+li :deep(a.router-link-exact-active) {
+  @apply text-white bg-opacity-25;
 }
 </style>

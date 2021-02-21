@@ -6,31 +6,35 @@
   <TwAlertSuccess v-if="message">{{ message }}</TwAlertSuccess>
   <TwAlertDanger v-if="error">{{ error }}</TwAlertDanger>
 
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Please enter your details</h5>
+  <TwCard title="Please enter your details" class="max-w-lg mt-8">
+    <div class="grid grid-cols-1 gap-6">
       <Form v-slot="{ errors }" :validation-schema="Schema" @submit="onSubmit">
-        <div class="form-group">
-          <label for="twoFactorCode">Verification Code</label>
+        <TwFormGroup label="Verification Code">
           <Field
             v-model="model.twoFactorCode"
             v-focus
             name="twoFactorCode"
             type="text"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.twoFactorCode }"
           />
           <ErrorMessage class="invalid-feedback" name="twoFactorCode" />
-        </div>
-        <div class="form-check">
-          <input id="rememberMachine" v-model="model.rememberMachine" type="checkbox" class="form-check-input" />
-          <label class="form-check-label" for="rememberMachine">Remember this machine</label>
+        </TwFormGroup>
+        <div class="block">
+          <div class="mt-2">
+            <div>
+              <label class="inline-flex items-center">
+                <input id="rememberMachine" v-model="model.rememberMachine" type="checkbox" />
+                <span class="ml-2">Remember this machine</span>
+              </label>
+            </div>
+          </div>
         </div>
 
-        <button type="submit" class="mt-2 btn btn-primary">Submit</button>
+        <button type="submit" class="mt-4 btn">Submit</button>
       </Form>
     </div>
-  </div>
+  </TwCard>
   <p>
     Don't have access to your authenticator device? You can
     <router-link :to="{ path: '/account/LoginWithRecoveryCode', query: { returnUrl: returnUrl } }"

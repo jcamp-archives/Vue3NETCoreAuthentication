@@ -1,4 +1,6 @@
 ﻿<template>
+  <h2>Enable multi-factor authentication (MFA)</h2>
+
   <TwAlertSuccess v-if="message">{{ message }}</TwAlertSuccess>
   <TwAlertDanger v-if="error">{{ error }}</TwAlertDanger>
 
@@ -32,20 +34,19 @@
         <div class="row">
           <div class="col-md-6">
             <Form v-slot="{ errors }" :validation-schema="Schema" @submit="onSubmit">
-              <div class="form-group">
-                <label for="verificationCode">Verification Code</label>
+              <TwFormGroup label="Verification Code">
                 <Field
                   v-model="verificationCode"
                   v-focus
                   name="verificationCode"
                   type="text"
-                  class="form-control"
+                  class="block w-full mt-1"
                   :class="{ 'is-invalid': errors.verificationCode }"
                 />
                 <ErrorMessage class="invalid-feedback" name="verificationCode" />
-              </div>
+              </TwFormGroup>
 
-              <button type="submit" class="btn btn-primary">Verify</button>
+              <button type="submit" class="mt-4 btn">Verify</button>
             </Form>
           </div>
         </div>

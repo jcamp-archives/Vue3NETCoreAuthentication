@@ -1,38 +1,36 @@
 ﻿<template>
-  <h1>Profile</h1>
-  <div v-if="message" class="alert alert-success" role="alert">{{ message }}</div>
-  <div v-if="error" class="alert alert-danger" role="alert">{{ error }}</div>
+  <h2>Profile</h2>
+  <TwAlertSuccess v-if="message">{{ message }}</TwAlertSuccess>
+  <TwAlertDanger v-if="error">{{ error }}</TwAlertDanger>
 
-  <div class="card">
-    <div class="card-body">
+  <TwCard class="max-w-lg mt-8">
+    <div class="grid grid-cols-1 gap-6">
       <Form v-slot="{ errors }" :validation-schema="Schema" @submit="onSubmit">
-        <div class="form-group">
-          <label for="email">User Name</label>
+        <TwFormGroup label="User Name">
           <Field
             v-model="model.email"
             name="email"
             type="text"
-            class="form-control"
+            class="block w-full mt-1 bg-gray-200 border-gray-300"
             :class="{ 'is-invalid': errors.email }"
             disabled
           />
           <ErrorMessage class="invalid-feedback" name="email" />
-        </div>
-        <div class="form-group">
-          <label for="phoneNumber">Phone Number</label>
+        </TwFormGroup>
+        <TwFormGroup label="Phone Number">
           <Field
             v-model="model.phoneNumber"
             name="phoneNumber"
             type="text"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.phoneNumber }"
           />
           <ErrorMessage class="invalid-feedback" name="phoneNumber" />
-        </div>
-        <button type="submit" class="btn btn-primary">Save</button>
+        </TwFormGroup>
+        <button type="submit" class="mt-4 btn">Save</button>
       </Form>
     </div>
-  </div>
+  </TwCard>
 </template>
 
 <script setup lang="ts">

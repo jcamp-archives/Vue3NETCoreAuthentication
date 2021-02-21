@@ -1,5 +1,5 @@
 ﻿<template>
-  <h4>Delete Personal Data</h4>
+  <h2>Delete Personal Data</h2>
   <TwAlertSuccess v-if="message">{{ message }}</TwAlertSuccess>
   <TwAlertDanger v-if="error">{{ error }}</TwAlertDanger>
 
@@ -12,19 +12,18 @@
   <div class="row">
     <div class="col-md-6">
       <Form v-slot="{ errors }" :validation-schema="Schema" @submit="onSubmit">
-        <div class="form-group">
-          <label for="password">Password</label>
+        <TwFormGroup label="Password">
           <Field
             v-model="model.password"
             v-focus
             name="password"
             type="password"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.password }"
           />
           <ErrorMessage class="invalid-feedback" name="password" />
-        </div>
-        <button class="btn btn-danger" type="submit">Delete data and close my account</button>
+        </TwFormGroup>
+        <button class="mt-4 bg-red-400 btn" type="submit">Delete data and close my account</button>
       </Form>
     </div>
   </div>

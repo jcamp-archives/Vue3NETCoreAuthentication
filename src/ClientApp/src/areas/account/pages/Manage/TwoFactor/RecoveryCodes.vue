@@ -1,5 +1,5 @@
 ﻿<template>
-  <h1>Generate Recovery Codes</h1>
+  <h2>Generate Recovery Codes</h2>
 
   <TwAlertSuccess v-if="message">{{ message }}</TwAlertSuccess>
   <TwAlertDanger v-if="error">{{ error }}</TwAlertDanger>
@@ -19,7 +19,7 @@
     </p>
   </div>
   <div v-if="codes.length == 0">
-    <button class="btn btn-danger" @click.prevent="generateCodes">Generate Recovery Codes</button>
+    <button class="mt-4 bg-red-400 btn" @click.prevent="generateCodes">Generate Recovery Codes</button>
   </div>
   <div v-if="codes.length > 0" class="row">
     <div class="col-md-12">

@@ -1,11 +1,9 @@
 ﻿<template>
-  <h4>Download Personal Data</h4>
+  <h2>Download Personal Data</h2>
 
-  <div class="row">
-    <div class="col-md-6">
-      <textarea v-model="body" class="form-control" style="height: 20rem"></textarea>
-    </div>
-  </div>
+  <TwCard>
+    <textarea v-model="body" class="block w-full" style="height: 20rem"></textarea>
+  </TwCard>
 </template>
 
 <script setup lang="ts">

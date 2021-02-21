@@ -1,5 +1,5 @@
 ﻿<template>
-  <h1>Two Factor Authentication</h1>
+  <h2>Two Factor Authentication</h2>
   <TwAlertSuccess v-if="message">{{ message }}</TwAlertSuccess>
   <TwAlertDanger v-if="error">{{ error }}</TwAlertDanger>
 
@@ -36,15 +36,15 @@
       Forget this browser
     </button>
 
-    <router-link to="/Account/Manage/TwoFactor/Disable" class="btn btn-primary mr-2">Disable 2FA</router-link>
+    <router-link to="/Account/Manage/TwoFactor/Disable" class="mr-2 btn btn-primary">Disable 2FA</router-link>
     <router-link to="/Account/Manage/TwoFactor/RecoveryCodes" class="btn btn-primary">Reset recovery codes</router-link>
   </div>
 
   <h5>Authenticator app</h5>
-  <router-link v-if="!model.hasAuthenticator" to="/Account/Manage/TwoFactor/Enable" class="btn btn-primary mr-2"
+  <router-link v-if="!model.hasAuthenticator" to="/Account/Manage/TwoFactor/Enable" class="mr-2 btn btn-primary"
     >Add authenticator app</router-link
   >
-  <router-link v-if="model.hasAuthenticator" to="/Account/Manage/TwoFactor/Enable" class="btn btn-primary mr-2"
+  <router-link v-if="model.hasAuthenticator" to="/Account/Manage/TwoFactor/Enable" class="mr-2 btn btn-primary"
     >Setup authenticator app</router-link
   >
   <router-link v-if="model.hasAuthenticator" to="/Account/Manage/TwoFactor/Reset" class="btn btn-primary"

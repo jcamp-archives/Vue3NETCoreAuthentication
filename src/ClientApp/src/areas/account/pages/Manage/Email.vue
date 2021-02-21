@@ -1,41 +1,39 @@
 ﻿<template>
-  <h1>Manage Email</h1>
+  <h2>Manage Email</h2>
   <TwAlertSuccess v-if="message">{{ message }}</TwAlertSuccess>
   <TwAlertDanger v-if="error">{{ error }}</TwAlertDanger>
 
-  <div class="card">
-    <div class="card-body">
+  <TwCard class="max-w-lg mt-8">
+    <div class="grid grid-cols-1 gap-6">
       <Form v-slot="{ errors }" :validation-schema="Schema" @submit="onSubmit">
-        <div class="form-group">
-          <label for="email">Email</label>
-
-          <div v-if="isEmailConfirmed" class="input-group">
-            <input v-model="emailAddress" type="text" name="email" class="form-control" disabled />
-            <div class="input-group-append">
-              <span class="input-group-text text-success font-weight-bold">✓</span>
+        <TwFormGroup label="Email">
+          <div class="relative mt-1 rounded-md shadow-sm">
+            <input v-model="emailAddress" disabled type="text" class="block w-full bg-gray-200 border-gray-300" />
+            <div v-if="isEmailConfirmed" class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <oi-check class="w-5 h-5 text-green-600" />
             </div>
           </div>
-          <div v-else>
-            <input v-model="emailAddress" type="text" name="email" class="form-control" disabled />
-            <button class="btn btn-link" @click.prevent="sendVerificationEmail">Send verification email</button>
+          <div v-if="!isEmailConfirmed">
+            <a class="block mt-1 mb-5 text-blue-500 cursor-pointer" @click.prevent="sendVerificationEmail"
+              >Send verification email</a
+            >
           </div>
-        </div>
+        </TwFormGroup>
 
-        <div class="form-group">
-          <label for="newEmail">New Email</label>
+        <TwFormGroup label="New Email">
           <Field
             v-model="model.newEmail"
             name="newEmail"
             type="text"
-            class="form-control"
+            class="block w-full mt-1"
             :class="{ 'is-invalid': errors.newEmail }"
           />
           <ErrorMessage class="invalid-feedback" name="newEmail" />
-        </div>
-        <button type="submit" class="btn btn-primary">Change email</button>
+        </TwFormGroup>
+        <button type="submit" class="mt-4 btn">Change email</button>
       </Form>
     </div>
-  </div>
+  </TwCard>
 </template>
 
 <script setup lang="ts">
